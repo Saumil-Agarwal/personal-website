@@ -1,1 +1,3 @@
-# personal-webstie
+# personal-website
+
+Personal Website
