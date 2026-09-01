@@ -3,6 +3,7 @@ import { Contact } from "@/components/contact";
 import { ExperienceTimeline } from "@/components/experience-timeline";
 import { Footer } from "@/components/footer";
 import { Hero } from "@/components/hero";
+import { HeroArtwork } from "@/components/hero-artwork";
 import { Nav } from "@/components/nav";
 import { Projects } from "@/components/projects";
 import { SkillsGrid } from "@/components/skills-grid";
@@ -13,9 +14,13 @@ import { Terminal } from "@/features/terminal/terminal";
 export default function Home() {
   return (
     <>
-      <Nav />
+      <header className="site-header">
+        <Nav />
+      </header>
       <main>
-        <Hero />
+        <Hero>
+          <HeroArtwork />
+        </Hero>
         <div className="shell">
           <About />
           <ExperienceTimeline />

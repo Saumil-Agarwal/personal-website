@@ -14,6 +14,40 @@ describe("portfolio home", () => {
     expect(screen.getByRole("contentinfo")).toBeVisible();
   });
 
+  it("wraps the nav inside a full-width site-header", () => {
+    const { container } = render(<Home />);
+    const header = container.querySelector(".site-header");
+    expect(header).toBeInTheDocument();
+    expect(header?.querySelector("nav[aria-label='Primary']")).toBeInTheDocument();
+  });
+
+  it("renders a decorative hero artwork with the correct test id", () => {
+    render(<Home />);
+    const artwork = screen.getByTestId("hero-artwork");
+    expect(artwork).toBeVisible();
+    expect(artwork).toHaveAttribute("aria-hidden", "true");
+  });
+
+  it("preserves all three hero CTAs alongside the artwork", () => {
+    render(<Home />);
+    expect(screen.getByRole("link", { name: /view projects/i })).toBeVisible();
+    expect(screen.getByRole("link", { name: /ask the ai/i })).toBeVisible();
+    expect(screen.getByRole("link", { name: /^resume$/i })).toBeVisible();
+  });
+
+  it("keeps the semantic H1 as Saumil Agarwal", () => {
+    render(<Home />);
+    expect(
+      screen.getByRole("heading", { level: 1, name: "Saumil Agarwal" }),
+    ).toBeVisible();
+  });
+
+  it("renders six project visuals with data attributes", () => {
+    const { container } = render(<Home />);
+    const visuals = container.querySelectorAll("[data-project-visual]");
+    expect(visuals).toHaveLength(6);
+  });
+
   it("exposes every primary portfolio section and key links", () => {
     render(<Home />);
 
@@ -51,5 +85,16 @@ describe("portfolio home", () => {
       /Member of Technical Staff/,
     );
     vi.useRealTimers();
+  });
+
+  it("renders artwork passed as children inside the hero section", () => {
+    const { container } = render(
+      <Hero>
+        <div data-testid="slot-child">artwork slot</div>
+      </Hero>,
+    );
+    const hero = container.querySelector("#top");
+    expect(hero).toBeInTheDocument();
+    expect(hero!.querySelector("[data-testid='slot-child']")).toBeInTheDocument();
   });
 });

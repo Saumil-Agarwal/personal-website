@@ -1,0 +1,45 @@
+import { render } from "@testing-library/react";
+import { projects } from "@/content/site";
+import { ProjectVisual, visualKinds } from "./project-visual";
+
+const knownSlugs = projects.map((p) => p.slug);
+
+describe("ProjectVisual", () => {
+  it.each(knownSlugs)(
+    "renders a decorative visual for slug '%s'",
+    (slug) => {
+      const { container } = render(
+        <ProjectVisual slug={slug as (typeof projects)[number]["slug"]} />,
+      );
+      const visual = container.querySelector(
+        `[data-project-visual="${slug}"]`,
+      );
+      expect(visual).toBeInTheDocument();
+      expect(visual).toHaveAttribute("aria-hidden", "true");
+    },
+  );
+
+  it("renders a neutral fallback for an unknown slug without throwing", () => {
+    const { container } = render(
+      <ProjectVisual slug={"nonexistent-project" as never} />,
+    );
+    const visual = container.querySelector("[data-project-visual]");
+    expect(visual).toBeInTheDocument();
+    expect(visual).toHaveAttribute("aria-hidden", "true");
+  });
+
+  it("contains an SVG inside each visual", () => {
+    const { container } = render(
+      <ProjectVisual slug={knownSlugs[0] as (typeof projects)[number]["slug"]} />,
+    );
+    const visual = container.querySelector("[data-project-visual]");
+    expect(visual?.querySelector("svg")).toBeInTheDocument();
+  });
+
+  it("maps every content project slug to a non-neutral visual kind", () => {
+    for (const slug of knownSlugs) {
+      expect(visualKinds).toHaveProperty(slug);
+      expect((visualKinds as Record<string, string>)[slug]).not.toBe("neutral");
+    }
+  });
+});

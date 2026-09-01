@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { type ReactNode, useEffect, useState } from "react";
 import { profile } from "@/content/site";
 
-export function Hero() {
+export function Hero({ children }: { children?: ReactNode }) {
   const [tagline, setTagline] = useState("");
   useEffect(() => {
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -20,15 +20,33 @@ export function Hero() {
     return () => window.clearInterval(timer);
   }, []);
 
-  return <header id="top" className="hero shell">
-    <p className="prompt">saumil@agarwal:~$ <span>whoami</span></p>
-    <h1>{profile.name}</h1>
-    <p className="tagline"><span data-testid="hero-tagline">{tagline}</span><span className="caret" aria-hidden="true">▋</span></p>
-    <p className="lede">{profile.summary}</p>
-    <div className="actions">
-      <a className="button primary" href="#projects">View projects</a>
-      <a className="button" href="#ask">Ask the AI</a>
-      <a className="button" href={profile.resumeUrl} download>Resume</a>
-    </div>
-  </header>;
+  return (
+    <header id="top" className="hero shell">
+      <div className="hero-copy">
+        <p className="prompt">
+          saumil@agarwal:~$ <span>whoami</span>
+        </p>
+        <h1>{profile.name}</h1>
+        <p className="tagline">
+          <span data-testid="hero-tagline">{tagline}</span>
+          <span className="caret" aria-hidden="true">
+            ▋
+          </span>
+        </p>
+        <p className="lede">{profile.summary}</p>
+        <div className="actions">
+          <a className="button primary" href="#projects">
+            View projects
+          </a>
+          <a className="button" href="#ask">
+            Ask the AI
+          </a>
+          <a className="button" href={profile.resumeUrl} download>
+            Resume
+          </a>
+        </div>
+      </div>
+      {children}
+    </header>
+  );
 }
