@@ -2,6 +2,8 @@
 
 A dark-first, terminal-inspired portfolio built with Next.js App Router, React, TypeScript, and Tailwind CSS 4. It presents selected systems, security, and applied-AI work with an accessible interactive terminal, command palette, and local scripted Q&A.
 
+**Live site:** [saumil-agarwal.vercel.app](https://saumil-agarwal.vercel.app)
+
 ## Architecture
 
 - `src/content/site.ts` — the single typed source for profile, experience, projects, skills, and Q&A.
