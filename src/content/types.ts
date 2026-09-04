@@ -31,6 +31,11 @@ export type Project = {
   blurb: string;
   tags: string[];
   highlights: string[];
+  details: {
+    problem: string;
+    approach: string;
+    architecture: string[];
+  };
   featured: boolean;
   links?: { website?: string };
 };

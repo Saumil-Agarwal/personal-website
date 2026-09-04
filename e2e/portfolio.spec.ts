@@ -1,9 +1,10 @@
 import { expect, test } from "@playwright/test";
 
-test("portfolio core journey, inline projects, and SEO resources", async ({ page }) => {
+test("portfolio core journey, project modal, and SEO resources", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByRole("heading", { level: 1, name: "Saumil Agarwal" })).toBeVisible();
   await page.getByRole("button", { name: /view project: jira/i }).click();
+  await expect(page.getByRole("dialog", { name: /jira → github autopilot/i })).toBeVisible();
   await expect(page.getByText(/automated bug reproduction/i)).toBeVisible();
   await expect(page).toHaveURL(/\/$/);
   await expect(page.goto("/sitemap.xml")).resolves.toBeTruthy();
@@ -15,7 +16,7 @@ test("portfolio core journey, inline projects, and SEO resources", async ({ page
 test("visual layout: compact hero, project visuals, and no overflow", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator(".site-header")).toBeVisible();
-  await expect(page.getByTestId("hero-artwork")).toHaveCount(0);
+  await expect(page.getByTestId("hero-artwork")).toBeVisible();
   await expect(page.locator("[data-project-visual]")).toHaveCount(6);
   expect(
     await page.evaluate(
@@ -31,7 +32,7 @@ test("mobile viewport: header, palette scrolling, visuals, and no overflow @mobi
   test.skip(!viewport || viewport.width > 500, "mobile-only test");
   await page.goto("/");
   await expect(page.locator(".site-header")).toBeVisible();
-  await expect(page.getByTestId("hero-artwork")).toHaveCount(0);
+  await expect(page.getByTestId("hero-artwork")).toBeVisible();
   await expect(page.locator("[data-project-visual]")).toHaveCount(6);
   await page.getByRole("button", { name: /open command palette/i }).click();
   await expect(page.locator(".palette-results")).toBeVisible();

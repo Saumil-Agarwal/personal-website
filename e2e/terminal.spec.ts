@@ -11,3 +11,16 @@ test("terminal and command palette work", async ({ page }) => {
   await page.getByRole("textbox", { name: /search commands/i }).press("Enter");
   await expect(page.locator("#projects")).toBeInViewport();
 });
+
+test("terminal filesystem supports cd, ls, cat, and tab completion", async ({ page }) => {
+  await page.goto("/");
+  const input = page.getByRole("textbox", { name: /terminal command/i });
+  await input.fill("cd projects");
+  await input.press("Enter");
+  await expect(page.locator("form .accent")).toHaveText("saumil@agarwal:~/projects$");
+  await input.fill("cat jira");
+  await input.press("Tab");
+  await expect(input).toHaveValue("cat jira-github-autopilot.md");
+  await input.press("Enter");
+  await expect(page.getByText("# Jira → GitHub Autopilot")).toBeVisible();
+});

@@ -105,6 +105,11 @@ export const projects: Project[] = [
       "Automated bug reproduction, log analysis, fix generation, testing, and code review.",
       "Enabled parallel issue processing and reduced repetitive engineering work by 2–3 hours per issue.",
     ],
+    details: {
+      problem: "Issue-to-fix work repeatedly consumed engineering time across reproduction, diagnosis, implementation, validation, and review.",
+      approach: "Designed an agentic workflow that decomposes a Jira issue into specialized stages, carries evidence between them, and keeps verification in the loop before a pull request is proposed.",
+      architecture: ["Jira issue ingestion", "Parallel reproduction and log-analysis agents", "Code generation with test execution", "Automated review and GitHub pull-request handoff"],
+    },
     featured: true,
   },
   {
@@ -117,6 +122,11 @@ export const projects: Project[] = [
       "Applied PFC and ECN across SR-IOV network interfaces.",
       "Prioritized latency-sensitive traffic while supporting lossless transfer.",
     ],
+    details: {
+      problem: "AI and storage traffic needs lossless transfer, while latency-sensitive workloads still need predictable service on the same physical network.",
+      approach: "Applied traffic classification and lossless Ethernet controls across NVIDIA Mellanox SR-IOV interfaces, balancing priority treatment with congestion feedback.",
+      architecture: ["NVIDIA Mellanox NICs and SR-IOV virtual functions", "Priority Flow Control for lossless traffic classes", "ECN congestion signalling", "QoS policies separating throughput and latency-sensitive flows"],
+    },
     featured: true,
   },
   {
@@ -129,6 +139,11 @@ export const projects: Project[] = [
       "Replaced a Python-based architecture to improve efficiency and concurrency.",
       "Reduced the build pipeline from two hours to 30 minutes.",
     ],
+    details: {
+      problem: "The existing Python service and build path limited efficient parallel execution and made security-policy delivery slower than it needed to be.",
+      approach: "Rebuilt the service around Go concurrency and explicit service boundaries, with production operations and build performance treated as part of the design.",
+      architecture: ["Go microservice", "Concurrent policy-processing workers", "Network-security policy APIs", "Optimized build and delivery pipeline"],
+    },
     featured: true,
   },
   {
@@ -141,6 +156,11 @@ export const projects: Project[] = [
       "Led a four-person team and coordinated integration with 12 engineering teams.",
       "Delivered platform-wide safeguards against cross-tenant data access.",
     ],
+    details: {
+      problem: "A shared platform needed consistent safeguards so one tenant could never access another tenant’s data across product boundaries.",
+      approach: "Led the platform-wide isolation effort, aligning interfaces and enforcement points across a four-person core team and 12 integrating engineering teams.",
+      architecture: ["Tenant-aware request context", "Policy enforcement at service boundaries", "Shared storage with tenant-scoped access", "Cross-platform integration contracts and validation"],
+    },
     featured: true,
   },
   {
@@ -153,6 +173,11 @@ export const projects: Project[] = [
       "Reworked a distributed pipeline to improve synchronization.",
       "Created a reusable collector that multiple teams could consume concurrently.",
     ],
+    details: {
+      problem: "Multiple consumers needed reliable access to distributed telemetry without synchronization conflicts or one consumer blocking another.",
+      approach: "Reworked the telemetry path around NATS JetStream and a reusable collector so producers could publish once while concurrent consumers processed independently.",
+      architecture: ["Telemetry source and publisher", "NATS JetStream persistence", "Reusable collector abstraction", "Independent concurrent consumer paths"],
+    },
     featured: true,
   },
   {
@@ -164,6 +189,11 @@ export const projects: Project[] = [
     highlights: [
       "Owns the path from collectible design to fulfillment and customer experience.",
     ],
+    details: {
+      problem: "Meaningful routes, scenes, and fandom objects often remain digital or disposable instead of becoming personal objects people can keep.",
+      approach: "Built a small-batch studio spanning product ideation, 3D design, printing, finishing, storefront operations, fulfillment, and customer experience.",
+      architecture: ["Parametric and sculptural 3D product design", "Made-to-order additive manufacturing", "Running-map personalization and NFC options", "Direct-to-consumer storefront and fulfillment"],
+    },
     featured: true,
     links: { website: "https://www.twofoldeditions.in" },
   },

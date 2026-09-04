@@ -39,25 +39,22 @@ function WorkflowVisual() {
 function NetworkVisual() {
   return (
     <svg viewBox="0 0 200 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="project-visual-svg" focusable="false">
-      <line x1="20" y1="30" x2="180" y2="30" stroke="var(--accent)" strokeWidth="0.6" opacity="0.15" />
-      <line x1="20" y1="50" x2="180" y2="50" stroke="var(--accent)" strokeWidth="0.6" opacity="0.15" />
-      <line x1="20" y1="70" x2="180" y2="70" stroke="var(--accent)" strokeWidth="0.6" opacity="0.15" />
-      <rect x="15" y="22" width="30" height="16" rx="3" stroke="var(--accent)" strokeWidth="0.7" opacity="0.4" />
-      <rect x="15" y="42" width="30" height="16" rx="3" stroke="var(--accent)" strokeWidth="0.7" opacity="0.4" />
-      <rect x="15" y="62" width="30" height="16" rx="3" stroke="var(--accent)" strokeWidth="0.7" opacity="0.4" />
-      <rect x="155" y="22" width="30" height="16" rx="3" stroke="var(--accent)" strokeWidth="0.7" opacity="0.4" />
-      <rect x="155" y="42" width="30" height="16" rx="3" stroke="var(--accent)" strokeWidth="0.7" opacity="0.4" />
-      <rect x="155" y="62" width="30" height="16" rx="3" stroke="var(--accent)" strokeWidth="0.7" opacity="0.4" />
-      {/* Priority traffic lanes */}
-      <rect x="55" y="26" width="90" height="8" rx="2" fill="var(--accent)" opacity="0.12" />
-      <rect x="55" y="46" width="90" height="8" rx="2" fill="var(--accent)" opacity="0.07" />
-      <rect x="55" y="66" width="90" height="8" rx="2" fill="var(--accent)" opacity="0.05" />
-      <circle cx="75" cy="30" r="2.5" fill="var(--accent)" opacity="0.5" className="node node-1" />
-      <circle cx="100" cy="30" r="2" fill="var(--accent)" opacity="0.4" className="node node-2" />
-      <circle cx="130" cy="30" r="2.5" fill="var(--accent)" opacity="0.45" className="node node-3" />
-      <circle cx="85" cy="50" r="2" fill="var(--accent)" opacity="0.3" />
-      <circle cx="120" cy="50" r="2" fill="var(--accent)" opacity="0.3" />
-      <text x="100" y="95" textAnchor="middle" fill="var(--accent)" fontSize="5" fontFamily="var(--font-geist-mono)" opacity="0.3">PFC / ECN</text>
+      <rect x="7" y="22" width="38" height="56" rx="5" className="diagram-box" />
+      <text x="26" y="43" className="diagram-label">GPU A</text><text x="26" y="56" className="diagram-small">MELLANOX</text>
+      <rect x="155" y="22" width="38" height="56" rx="5" className="diagram-box" />
+      <text x="174" y="43" className="diagram-label">GPU B</text><text x="174" y="56" className="diagram-small">MELLANOX</text>
+      <rect x="52" y="23" width="96" height="16" rx="3" className="qos-lane qos-lane-high" />
+      <rect x="52" y="44" width="96" height="13" rx="3" className="qos-lane" />
+      <rect x="52" y="62" width="96" height="13" rx="3" className="qos-lane" />
+      <text x="100" y="34" className="diagram-small">PRIORITY 3 · LOSSLESS</text>
+      <text x="100" y="54" className="diagram-small">PRIORITY 1</text>
+      <circle cx="82" cy="30" r="3" data-rdma-bit className="rdma-bit rdma-bit-1" />
+      <circle cx="102" cy="30" r="2.4" data-rdma-bit className="rdma-bit rdma-bit-2" />
+      <circle cx="126" cy="30" r="2.6" data-rdma-bit className="rdma-bit rdma-bit-3" />
+      <circle cx="129" cy="50" r="3" data-ecn-mark className="ecn-mark" />
+      <text x="129" y="87" className="diagram-small">ECN MARK</text>
+      <path d="M146 68 H58 M64 64 L58 68 L64 72" data-pfc-signal className="pfc-signal" />
+      <text x="100" y="96" className="diagram-small">PFC PAUSE ←</text>
     </svg>
   );
 }
@@ -85,18 +82,8 @@ function ServicesVisual() {
 function LayersVisual() {
   return (
     <svg viewBox="0 0 200 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="project-visual-svg" focusable="false">
-      <rect x="30" y="12" width="140" height="20" rx="4" stroke="var(--accent)" strokeWidth="0.7" opacity="0.2" fill="var(--accent)" fillOpacity="0.03" />
-      <text x="100" y="25" textAnchor="middle" fill="var(--accent)" fontSize="6" fontFamily="var(--font-geist-mono)" opacity="0.35">TENANT A</text>
-      <rect x="30" y="40" width="140" height="20" rx="4" stroke="var(--accent)" strokeWidth="0.7" opacity="0.3" fill="var(--accent)" fillOpacity="0.05" />
-      <text x="100" y="53" textAnchor="middle" fill="var(--accent)" fontSize="6" fontFamily="var(--font-geist-mono)" opacity="0.4">ISOLATION</text>
-      <rect x="30" y="68" width="140" height="20" rx="4" stroke="var(--accent)" strokeWidth="0.7" opacity="0.2" fill="var(--accent)" fillOpacity="0.03" />
-      <text x="100" y="81" textAnchor="middle" fill="var(--accent)" fontSize="6" fontFamily="var(--font-geist-mono)" opacity="0.35">TENANT B</text>
-      <line x1="30" y1="32" x2="170" y2="32" stroke="var(--accent)" strokeWidth="1" opacity="0.15" strokeDasharray="4 3" />
-      <line x1="30" y1="60" x2="170" y2="60" stroke="var(--accent)" strokeWidth="1" opacity="0.15" strokeDasharray="4 3" />
-      <circle cx="55" cy="22" r="2.5" fill="var(--accent)" opacity="0.3" />
-      <circle cx="145" cy="22" r="2.5" fill="var(--accent)" opacity="0.3" />
-      <circle cx="55" cy="78" r="2.5" fill="var(--accent)" opacity="0.3" />
-      <circle cx="145" cy="78" r="2.5" fill="var(--accent)" opacity="0.3" />
+      {[20, 78, 136].map((x, index) => <g key={x} data-tenant><rect x={x} y="10" width="44" height="22" rx="4" className="diagram-box" /><text x={x + 22} y="24" className="diagram-label">TENANT {String.fromCharCode(65 + index)}</text><path d={`M${x + 22} 32 V48`} className="tenant-path" /><rect x={x + 5} y="48" width="34" height="15" rx="3" className="isolation-gate" /><text x={x + 22} y="58" className="diagram-small">ISOLATE</text><path d={`M${x + 22} 63 V75`} className="tenant-path" /></g>)}
+      <g data-shared-database><ellipse cx="100" cy="78" rx="82" ry="8" className="database-shape" /><path d="M18 78 V89 C18 94 55 98 100 98 C145 98 182 94 182 89 V78" className="database-shape" /><text x="100" y="90" className="diagram-small">SHARED DB · SCOPED ROWS</text></g>
     </svg>
   );
 }
@@ -106,19 +93,17 @@ function StreamVisual() {
     <svg viewBox="0 0 200 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="project-visual-svg" focusable="false">
       <rect x="10" y="35" width="30" height="30" rx="5" stroke="var(--accent)" strokeWidth="0.8" opacity="0.4" />
       <text x="25" y="53" textAnchor="middle" fill="var(--accent)" fontSize="5" fontFamily="var(--font-geist-mono)" opacity="0.5">SRC</text>
-      <line x1="40" y1="50" x2="70" y2="50" stroke="var(--accent)" strokeWidth="0.7" opacity="0.3" />
+      <line x1="40" y1="50" x2="70" y2="50" data-stream-leg="source" className="stream-path" />
       <line x1="60" y1="46" x2="70" y2="50" stroke="var(--accent)" strokeWidth="0.7" opacity="0.3" />
       <line x1="60" y1="54" x2="70" y2="50" stroke="var(--accent)" strokeWidth="0.7" opacity="0.3" />
       {/* Stream */}
       <rect x="70" y="30" width="60" height="40" rx="4" stroke="var(--accent)" strokeWidth="0.7" opacity="0.3" fill="var(--accent)" fillOpacity="0.03" />
-      <circle cx="82" cy="45" r="2" fill="var(--accent)" opacity="0.4" className="node node-1" />
-      <circle cx="92" cy="50" r="2" fill="var(--accent)" opacity="0.35" className="node node-2" />
-      <circle cx="102" cy="45" r="2" fill="var(--accent)" opacity="0.4" className="node node-3" />
-      <circle cx="112" cy="55" r="2" fill="var(--accent)" opacity="0.35" />
-      <circle cx="118" cy="45" r="2" fill="var(--accent)" opacity="0.3" />
+      <circle r="2.7" className="stream-packet stream-packet-source" />
+      <circle r="2.7" className="stream-packet stream-packet-c1" />
+      <circle r="2.7" className="stream-packet stream-packet-c2" />
       <text x="100" y="64" textAnchor="middle" fill="var(--accent)" fontSize="5" fontFamily="var(--font-geist-mono)" opacity="0.3">JETSTREAM</text>
-      <line x1="130" y1="42" x2="155" y2="30" stroke="var(--accent)" strokeWidth="0.6" opacity="0.25" />
-      <line x1="130" y1="50" x2="155" y2="50" stroke="var(--accent)" strokeWidth="0.6" opacity="0.25" />
+      <line x1="130" y1="42" x2="155" y2="30" data-stream-leg="consumer-1" className="stream-path" />
+      <line x1="130" y1="50" x2="155" y2="50" data-stream-leg="consumer-2" className="stream-path" />
       <line x1="130" y1="58" x2="155" y2="70" stroke="var(--accent)" strokeWidth="0.6" opacity="0.25" />
       <rect x="155" y="20" width="32" height="18" rx="3" stroke="var(--accent)" strokeWidth="0.6" opacity="0.3" />
       <text x="171" y="32" textAnchor="middle" fill="var(--accent)" fontSize="5" fontFamily="var(--font-geist-mono)" opacity="0.4">C1</text>
@@ -133,20 +118,9 @@ function StreamVisual() {
 function ObjectVisual() {
   return (
     <svg viewBox="0 0 200 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="project-visual-svg" focusable="false">
-      {/* Layered collectible silhouette */}
-      <rect x="65" y="15" width="70" height="70" rx="8" stroke="var(--accent)" strokeWidth="0.6" opacity="0.15" transform="rotate(3 100 50)" />
-      <rect x="60" y="18" width="70" height="70" rx="8" stroke="var(--accent)" strokeWidth="0.7" opacity="0.25" transform="rotate(-2 95 53)" />
-      <rect x="55" y="20" width="70" height="60" rx="8" stroke="var(--accent)" strokeWidth="0.8" opacity="0.4" fill="var(--accent)" fillOpacity="0.04" />
-      <path
-        d="M75 55 C80 40, 95 32, 105 38 C115 44, 112 58, 100 62 C88 66, 72 63, 75 55Z"
-        stroke="var(--accent)"
-        strokeWidth="0.7"
-        opacity="0.3"
-        fill="var(--accent)"
-        fillOpacity="0.06"
-      />
-      <circle cx="90" cy="48" r="3" fill="var(--accent)" opacity="0.25" />
-      <text x="90" y="75" textAnchor="middle" fill="var(--accent)" fontSize="5" fontFamily="var(--font-geist-mono)" opacity="0.3">EDITION</text>
+      <g data-product="running-map"><rect x="10" y="17" width="52" height="64" rx="4" className="product-frame" /><path d="M18 59 C27 29 32 72 43 39 C49 22 55 46 55 46" className="product-detail" /><circle cx="43" cy="39" r="2" className="product-dot" /><text x="36" y="91" className="diagram-small">RUN MAP</text></g>
+      <g data-product="tyre-holder"><ellipse cx="101" cy="68" rx="25" ry="8" className="product-frame" /><ellipse cx="101" cy="58" rx="25" ry="8" className="product-frame" /><ellipse cx="101" cy="48" rx="25" ry="8" className="product-frame" /><path d="M90 45 L96 14 H106 L112 45" className="product-detail" /><text x="101" y="91" className="diagram-small">TYRE HOLDER</text></g>
+      <g data-product="book-nook"><path d="M143 18 H190 V81 H143 Z M150 74 V26 H182 V74 Z" className="product-frame" /><path d="M160 74 V45 H173 V74 M166 45 V32" className="product-detail" /><circle cx="166" cy="38" r="3" className="product-dot" /><text x="166" y="91" className="diagram-small">BOOK NOOK</text></g>
     </svg>
   );
 }

@@ -21,9 +21,9 @@ describe("portfolio home", () => {
     expect(header?.querySelector("nav[aria-label='Primary']")).toBeInTheDocument();
   });
 
-  it("does not render the generative-system hero artwork", () => {
+  it("renders the redesigned hero artwork without the old caption", () => {
     render(<Home />);
-    expect(screen.queryByTestId("hero-artwork")).not.toBeInTheDocument();
+    expect(screen.getByTestId("hero-artwork")).toBeVisible();
     expect(screen.queryByText(/generative system \/ 01/i)).not.toBeInTheDocument();
   });
 

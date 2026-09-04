@@ -30,3 +30,16 @@ it("supports history and tab completion", () => {
   fireEvent.keyDown(input, { key: "Tab" });
   expect(input).toHaveValue("whoami");
 });
+
+it("changes directories and completes project filenames", () => {
+  render(<Terminal />);
+  const input = screen.getByRole("textbox", { name: /terminal command/i });
+
+  fireEvent.change(input, { target: { value: "cd projects" } });
+  fireEvent.submit(input.closest("form")!);
+  expect(screen.getByText("saumil@agarwal:~/projects$", { selector: "form .accent" })).toBeVisible();
+
+  fireEvent.change(input, { target: { value: "cat jira" } });
+  fireEvent.keyDown(input, { key: "Tab" });
+  expect(input).toHaveValue("cat jira-github-autopilot.md");
+});

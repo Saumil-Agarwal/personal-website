@@ -20,4 +20,24 @@ describe("terminal command registry", () => {
     expect(completeCommand("who")).toBe("whoami");
     expect(completeCommand("c")).toBeNull();
   });
+
+  it("lets every root ls entry be read or entered", () => {
+    expect(executeCommand("cat about.md").lines?.join(" ")).toContain("production systems");
+    expect(executeCommand("cat experience.log").lines?.join(" ")).toContain("Nutanix");
+    expect(executeCommand("cat contact.txt").lines?.join(" ")).toContain("@gmail.com");
+    expect(executeCommand("cd projects").cwd).toBe("/projects");
+  });
+
+  it("lists and reads project files from the projects directory", () => {
+    expect(executeCommand("ls", "/projects").lines).toContain("jira-github-autopilot.md");
+    expect(executeCommand("cat jira-github-autopilot.md", "/projects").lines?.join(" ")).toContain("Jira → GitHub Autopilot");
+    expect(executeCommand("cd ..", "/projects").cwd).toBe("/");
+    expect(executeCommand("pwd", "/projects").lines).toEqual(["/projects"]);
+  });
+
+  it("tab-completes commands and filesystem paths in context", () => {
+    expect(completeCommand("cat ski", "/")).toBe("cat skills.txt");
+    expect(completeCommand("cd pro", "/")).toBe("cd projects/");
+    expect(completeCommand("cat jira", "/projects")).toBe("cat jira-github-autopilot.md");
+  });
 });

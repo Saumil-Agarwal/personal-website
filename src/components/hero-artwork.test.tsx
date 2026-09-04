@@ -19,27 +19,15 @@ describe("HeroArtwork", () => {
     expect(container.querySelector("svg")).toBeInTheDocument();
   });
 
-  it("includes a mono caption", () => {
+  it("does not include the old generative-system caption", () => {
     render(<HeroArtwork />);
-    expect(screen.getByTestId("hero-artwork")).toHaveTextContent(
-      /generative system/i,
-    );
+    expect(screen.getByTestId("hero-artwork")).not.toHaveTextContent(/generative system/i);
   });
 
-  it("wraps each tilted orbit ring in a stable <g> with a transform", () => {
+  it("depicts a distributed system with routed data and security boundaries", () => {
     const { container } = render(<HeroArtwork />);
-    const svg = container.querySelector("svg")!;
-    const orbit2Wrapper = svg.querySelector("g.orbit-tilt-2");
-    const orbit3Wrapper = svg.querySelector("g.orbit-tilt-3");
-    expect(orbit2Wrapper).toBeInTheDocument();
-    expect(orbit2Wrapper).toHaveAttribute("transform", expect.stringContaining("rotate"));
-    expect(orbit3Wrapper).toBeInTheDocument();
-    expect(orbit3Wrapper).toHaveAttribute("transform", expect.stringContaining("rotate"));
-    const innerEllipse2 = orbit2Wrapper!.querySelector("ellipse");
-    expect(innerEllipse2).toBeInTheDocument();
-    expect(innerEllipse2).not.toHaveAttribute("transform");
-    const innerEllipse3 = orbit3Wrapper!.querySelector("ellipse");
-    expect(innerEllipse3).toBeInTheDocument();
-    expect(innerEllipse3).not.toHaveAttribute("transform");
+    expect(container.querySelectorAll("[data-system-node]").length).toBeGreaterThanOrEqual(4);
+    expect(container.querySelectorAll("[data-data-packet]").length).toBeGreaterThanOrEqual(3);
+    expect(container.querySelector("[data-security-boundary]")).toBeInTheDocument();
   });
 });
