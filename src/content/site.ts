@@ -102,13 +102,13 @@ export const projects: Project[] = [
       "An agentic workflow for turning software issues into production-ready pull requests.",
     tags: ["Agentic AI", "Developer Experience", "Automation"],
     highlights: [
-      "Automated bug reproduction, log analysis, fix generation, testing, and code review.",
+      "Automated the path from Jira issue through reproduction, code generation, testing, review, fix refinement, and pull-request creation.",
       "Enabled parallel issue processing and reduced repetitive engineering work by 2–3 hours per issue.",
     ],
     details: {
       problem: "Issue-to-fix work repeatedly consumed engineering time across reproduction, diagnosis, implementation, validation, and review.",
-      approach: "Designed an agentic workflow that decomposes a Jira issue into specialized stages, carries evidence between them, and keeps verification in the loop before a pull request is proposed.",
-      architecture: ["Jira issue ingestion", "Parallel reproduction and log-analysis agents", "Code generation with test execution", "Automated review and GitHub pull-request handoff"],
+      approach: "Designed an agentic workflow that carries evidence through a deliberate issue → reproduce → generate → test → review → fix → pull-request loop.",
+      architecture: ["Jira issue ingestion and bug reproduction", "Evidence-grounded code generation", "Test execution and automated code review", "Fix refinement and GitHub pull-request creation"],
     },
     featured: true,
   },

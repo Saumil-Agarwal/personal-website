@@ -5,7 +5,7 @@ test("portfolio core journey, project modal, and SEO resources", async ({ page }
   await expect(page.getByRole("heading", { level: 1, name: "Saumil Agarwal" })).toBeVisible();
   await page.getByRole("button", { name: /view project: jira/i }).click();
   await expect(page.getByRole("dialog", { name: /jira → github autopilot/i })).toBeVisible();
-  await expect(page.getByText(/automated bug reproduction/i)).toBeVisible();
+  await expect(page.getByText(/automated the path from Jira issue/i)).toBeVisible();
   await expect(page).toHaveURL(/\/$/);
   await expect(page.goto("/sitemap.xml")).resolves.toBeTruthy();
   await expect(page.locator("body")).toContainText("projects/jira-github-autopilot");
@@ -13,10 +13,16 @@ test("portfolio core journey, project modal, and SEO resources", async ({ page }
   await expect(page.locator("body")).toContainText("Sitemap");
 });
 
-test("visual layout: compact hero, project visuals, and no overflow", async ({ page }) => {
+test("visual layout: layered hero, project visuals, and no overflow", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator(".site-header")).toBeVisible();
   await expect(page.getByTestId("hero-artwork")).toBeVisible();
+  if (page.viewportSize()!.width > 760) {
+    const heroArtworkWidth = await page.getByTestId("hero-artwork").evaluate(
+      (element) => element.getBoundingClientRect().width,
+    );
+    expect(heroArtworkWidth).toBeGreaterThan(520);
+  }
   await expect(page.locator("[data-project-visual]")).toHaveCount(6);
   expect(
     await page.evaluate(

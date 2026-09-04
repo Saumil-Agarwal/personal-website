@@ -12,26 +12,28 @@ export const visualKinds = {
 type VisualKind = (typeof visualKinds)[keyof typeof visualKinds] | "neutral";
 
 function WorkflowVisual() {
+  const stages = [
+    { id: "issue", label: "ISSUE", x: 7, y: 18, width: 34 },
+    { id: "reproduce", label: "REPRO", x: 55, y: 18, width: 38 },
+    { id: "generate", label: "CODE", x: 107, y: 18, width: 36 },
+    { id: "test", label: "TEST", x: 157, y: 18, width: 36 },
+    { id: "review", label: "REVIEW", x: 150, y: 64, width: 43 },
+    { id: "fix", label: "FIX", x: 91, y: 64, width: 35 },
+    { id: "pull-request", label: "PULL REQUEST", x: 7, y: 64, width: 60 },
+  ] as const;
+
   return (
     <svg viewBox="0 0 200 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="project-visual-svg" focusable="false">
-      <rect x="8" y="38" width="28" height="24" rx="4" stroke="var(--accent)" strokeWidth="0.8" opacity="0.5" />
-      <text x="22" y="53" textAnchor="middle" fill="var(--accent)" fontSize="7" fontFamily="var(--font-geist-mono)" opacity="0.6">ISSUE</text>
-      <line x1="36" y1="50" x2="56" y2="50" stroke="var(--accent)" strokeWidth="0.7" opacity="0.3" strokeDasharray="3 2" />
-      <circle cx="66" cy="50" r="10" stroke="var(--accent)" strokeWidth="0.8" opacity="0.45" />
-      <circle cx="66" cy="50" r="3" fill="var(--accent)" opacity="0.35" />
-      <line x1="76" y1="50" x2="88" y2="35" stroke="var(--accent)" strokeWidth="0.7" opacity="0.3" />
-      <line x1="76" y1="50" x2="88" y2="65" stroke="var(--accent)" strokeWidth="0.7" opacity="0.3" />
-      <circle cx="96" cy="35" r="7" stroke="var(--accent)" strokeWidth="0.7" opacity="0.4" />
-      <text x="96" y="37" textAnchor="middle" fill="var(--accent)" fontSize="5" fontFamily="var(--font-geist-mono)" opacity="0.5">AG</text>
-      <circle cx="96" cy="65" r="7" stroke="var(--accent)" strokeWidth="0.7" opacity="0.4" />
-      <text x="96" y="67" textAnchor="middle" fill="var(--accent)" fontSize="5" fontFamily="var(--font-geist-mono)" opacity="0.5">AG</text>
-      <line x1="103" y1="35" x2="120" y2="50" stroke="var(--accent)" strokeWidth="0.7" opacity="0.3" />
-      <line x1="103" y1="65" x2="120" y2="50" stroke="var(--accent)" strokeWidth="0.7" opacity="0.3" />
-      <rect x="120" y="40" width="20" height="20" rx="3" stroke="var(--accent)" strokeWidth="0.8" opacity="0.45" />
-      <text x="130" y="53" textAnchor="middle" fill="var(--accent)" fontSize="5" fontFamily="var(--font-geist-mono)" opacity="0.5">TEST</text>
-      <line x1="140" y1="50" x2="158" y2="50" stroke="var(--accent)" strokeWidth="0.7" opacity="0.3" strokeDasharray="3 2" />
-      <rect x="158" y="38" width="34" height="24" rx="4" stroke="var(--accent)" strokeWidth="0.8" opacity="0.5" />
-      <text x="175" y="53" textAnchor="middle" fill="var(--accent)" fontSize="6" fontFamily="var(--font-geist-mono)" opacity="0.6">PR</text>
+      <path d="M41 30 H55 M93 30 H107 M143 30 H157 M175 42 V64 M150 76 H126 M91 76 H67" className="workflow-route" />
+      <path d="M46 27 L51 30 L46 33 M98 27 L103 30 L98 33 M148 27 L153 30 L148 33 M172 51 L175 56 L178 51 M136 73 L131 76 L136 79 M77 73 L72 76 L77 79" className="workflow-arrows" />
+      {stages.map((stage, index) => (
+        <g key={stage.id} data-workflow-stage={stage.id}>
+          <rect x={stage.x} y={stage.y} width={stage.width} height="24" rx="5" className={`workflow-stage${index === stages.length - 1 ? " workflow-stage--final" : ""}`} />
+          <circle cx={stage.x + 7} cy={stage.y + 7} r="2" className="workflow-stage-dot" />
+          <text x={stage.x + stage.width / 2} y={stage.y + 15} className="workflow-label">{stage.label}</text>
+        </g>
+      ))}
+      <circle r="2.8" data-workflow-progress className="workflow-progress" />
     </svg>
   );
 }

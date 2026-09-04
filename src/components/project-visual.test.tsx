@@ -50,6 +50,25 @@ describe("ProjectVisual", () => {
     expect(container.querySelector("[data-ecn-mark]")).toBeInTheDocument();
   });
 
+  it("shows the complete Jira issue-to-pull-request workflow in order", () => {
+    const { container } = render(<ProjectVisual slug="jira-github-autopilot" />);
+    const stages = Array.from(
+      container.querySelectorAll("[data-workflow-stage]"),
+      (stage) => stage.getAttribute("data-workflow-stage"),
+    );
+
+    expect(stages).toEqual([
+      "issue",
+      "reproduce",
+      "generate",
+      "test",
+      "review",
+      "fix",
+      "pull-request",
+    ]);
+    expect(container.querySelector("[data-workflow-progress]")).toBeInTheDocument();
+  });
+
   it("routes NATS messages from the source through JetStream to consumers", () => {
     const { container } = render(<ProjectVisual slug="nats-jetstream-telemetry" />);
     expect(container.querySelector("[data-stream-leg='source']")).toBeInTheDocument();
