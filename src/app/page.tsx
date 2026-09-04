@@ -3,7 +3,6 @@ import { Contact } from "@/components/contact";
 import { ExperienceTimeline } from "@/components/experience-timeline";
 import { Footer } from "@/components/footer";
 import { Hero } from "@/components/hero";
-import { HeroArtwork } from "@/components/hero-artwork";
 import { Nav } from "@/components/nav";
 import { Projects } from "@/components/projects";
 import { SkillsGrid } from "@/components/skills-grid";
@@ -18,13 +17,11 @@ export default function Home() {
         <Nav />
       </header>
       <main>
-        <Hero>
-          <HeroArtwork />
-        </Hero>
+        <Hero />
         <div className="shell">
           <About />
-          <ExperienceTimeline />
           <Projects />
+          <ExperienceTimeline />
           <SkillsGrid />
           <section id="terminal" className="section" aria-labelledby="terminal-title">
             <p className="eyebrow">05 / terminal</p>

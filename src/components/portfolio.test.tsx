@@ -21,11 +21,10 @@ describe("portfolio home", () => {
     expect(header?.querySelector("nav[aria-label='Primary']")).toBeInTheDocument();
   });
 
-  it("renders a decorative hero artwork with the correct test id", () => {
+  it("does not render the generative-system hero artwork", () => {
     render(<Home />);
-    const artwork = screen.getByTestId("hero-artwork");
-    expect(artwork).toBeVisible();
-    expect(artwork).toHaveAttribute("aria-hidden", "true");
+    expect(screen.queryByTestId("hero-artwork")).not.toBeInTheDocument();
+    expect(screen.queryByText(/generative system \/ 01/i)).not.toBeInTheDocument();
   });
 
   it("preserves all three hero CTAs alongside the artwork", () => {
@@ -48,6 +47,16 @@ describe("portfolio home", () => {
     expect(visuals).toHaveLength(6);
   });
 
+  it("places selected work directly after about", () => {
+    render(<Home />);
+    const about = document.getElementById("about")!;
+    const projects = document.getElementById("projects")!;
+    const experience = document.getElementById("experience")!;
+
+    expect(about.compareDocumentPosition(projects) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(projects.compareDocumentPosition(experience) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+  });
+
   it("exposes every primary portfolio section and key links", () => {
     render(<Home />);
 
@@ -63,7 +72,7 @@ describe("portfolio home", () => {
       expect(document.getElementById(id)).toBeTruthy();
     }
 
-    expect(screen.getAllByRole("link", { name: /view project/i }).length).toBeGreaterThan(0);
+    expect(screen.getAllByRole("button", { name: /view project/i }).length).toBeGreaterThan(0);
     expect(screen.getByRole("link", { name: /download resume/i })).toHaveAttribute(
       "href",
       "/saumil-agarwal-resume.pdf",

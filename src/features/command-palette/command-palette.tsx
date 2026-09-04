@@ -66,7 +66,7 @@ export function CommandPalette() {
             if (event.key === "Enter") { event.preventDefault(); execute(selectedIndex); }
           }}
         />
-        <ul>{options.map((command, index) => <li key={command.name}><button className={index === selectedIndex ? "selected" : ""} onClick={() => execute(index)}><strong>{command.name}</strong><span>{command.description}</span></button></li>)}</ul>
+        <ul className="palette-results" aria-label="Available commands">{options.map((command, index) => <li key={command.name}><button className={index === selectedIndex ? "selected" : ""} onClick={() => execute(index)}><strong>{command.name}</strong><span>{command.description}</span></button></li>)}</ul>
       </div>
     </div>
   );

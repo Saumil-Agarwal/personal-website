@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { projectMetadata, projectParams } from "./[slug]/page";
+import { projectMetadata, projectParams } from "./project-data";
 import { projects } from "@/content/site";
 
 describe("project route data", () => {

@@ -1,13 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { profile, projects } from "@/content/site";
+import { projects } from "@/content/site";
+import { projectMetadata, projectParams } from "../project-data";
 
-export function projectParams() { return projects.map(({ slug }) => ({ slug })); }
-export function projectMetadata(slug: string): Metadata | undefined {
-  const project = projects.find((candidate) => candidate.slug === slug);
-  return project ? { title: `${project.title} | ${profile.name}`, description: project.blurb, alternates: { canonical: `/projects/${project.slug}` } } : undefined;
-}
 export const generateStaticParams = projectParams;
 export async function generateMetadata({ params }: PageProps<"/projects/[slug]">): Promise<Metadata> {
   return projectMetadata((await params).slug) ?? {};

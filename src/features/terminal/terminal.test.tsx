@@ -1,6 +1,13 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { Terminal } from "./terminal";
 
+it("prints the help command and available commands by default", () => {
+  render(<Terminal />);
+
+  expect(screen.getByText("help", { selector: ".terminal-output .terminal-command" })).toBeVisible();
+  expect(screen.getByText(/List available commands/)).toBeVisible();
+});
+
 it("submits commands and clears output", () => {
   render(<Terminal />);
   const input = screen.getByRole("textbox", { name: /terminal command/i });

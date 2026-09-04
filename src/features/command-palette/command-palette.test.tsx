@@ -7,6 +7,7 @@ it("opens from a visible control, filters, selects, and closes", () => {
   fireEvent.click(screen.getByRole("button", { name: /open command palette/i }));
   const search = screen.getByRole("textbox", { name: /search commands/i });
   expect(search).toBeVisible();
+  expect(screen.getByRole("list", { name: /available commands/i })).toHaveClass("palette-results");
 
   fireEvent.change(search, { target: { value: "who" } });
   expect(screen.getByText("whoami")).toBeVisible();
