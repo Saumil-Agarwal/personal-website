@@ -102,6 +102,21 @@ describe("portfolio home", () => {
     vi.useRealTimers();
   });
 
+  it("retypes the hero tagline at regular intervals", () => {
+    vi.useFakeTimers();
+    render(<Hero />);
+
+    act(() => vi.advanceTimersByTime(2_000));
+    expect(screen.getByTestId("hero-tagline")).toHaveTextContent(/Agentic AI$/);
+
+    act(() => vi.advanceTimersByTime(4_500));
+    expect(screen.getByTestId("hero-tagline")).toHaveTextContent(/^$/);
+
+    act(() => vi.advanceTimersByTime(1_200));
+    expect(screen.getByTestId("hero-tagline").textContent?.length).toBeGreaterThan(0);
+    vi.useRealTimers();
+  });
+
   it("renders artwork passed as children inside the hero section", () => {
     const { container } = render(
       <Hero>

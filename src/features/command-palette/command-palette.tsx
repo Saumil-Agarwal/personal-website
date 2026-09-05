@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import { commands } from "@/features/terminal/commands";
-import { applyCommandResult } from "@/features/terminal/result-handler";
 
 export function CommandPalette() {
   const [open, setOpen] = useState(false);
@@ -45,8 +44,8 @@ export function CommandPalette() {
   function execute(index: number) {
     const command = options[index];
     if (!command) return;
-    applyCommandResult(command.run([]));
     setOpen(false);
+    window.dispatchEvent(new CustomEvent("terminal-run-command", { detail: { command: command.name } }));
   }
   if (!open) return null;
 

@@ -12,12 +12,19 @@ export function Hero({ children }: { children?: ReactNode }) {
       return () => window.clearTimeout(timer);
     }
     let position = 0;
-    const timer = window.setInterval(() => {
+    let timer: number;
+    function type() {
       position += 1;
       setTagline(profile.tagline.slice(0, position));
-      if (position >= profile.tagline.length) window.clearInterval(timer);
-    }, 18);
-    return () => window.clearInterval(timer);
+      timer = window.setTimeout(position >= profile.tagline.length ? erase : type, position >= profile.tagline.length ? 4_000 : 18);
+    }
+    function erase() {
+      position -= 1;
+      setTagline(profile.tagline.slice(0, position));
+      timer = window.setTimeout(position <= 0 ? type : erase, position <= 0 ? 900 : 10);
+    }
+    timer = window.setTimeout(type, 18);
+    return () => window.clearTimeout(timer);
   }, []);
 
   return (

@@ -10,6 +10,7 @@ test("terminal and command palette work", async ({ page }) => {
   await page.getByRole("textbox", { name: /search commands/i }).fill("projects");
   await page.getByRole("textbox", { name: /search commands/i }).press("Enter");
   await expect(page.locator("#projects")).toBeInViewport();
+  await expect(page.getByText("projects", { exact: true }).last()).toHaveClass("terminal-command");
 });
 
 test("terminal filesystem supports cd, ls, cat, and tab completion", async ({ page }) => {
