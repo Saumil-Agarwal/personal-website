@@ -4,7 +4,7 @@ export type Profile = {
   location: string;
   email: string;
   summary: string;
-  currently: string;
+  interests: string;
   resumeUrl: string;
   availability: string;
   links: { github: string; linkedin: string };

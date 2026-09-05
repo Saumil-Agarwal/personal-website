@@ -18,9 +18,15 @@ test("terminal filesystem supports cd, ls, cat, and tab completion", async ({ pa
   await input.fill("cd projects");
   await input.press("Enter");
   await expect(page.locator("form .accent")).toHaveText("saumil@agarwal:~/projects$");
-  await input.fill("cat jira");
+  await input.fill("cd jira");
   await input.press("Tab");
-  await expect(input).toHaveValue("cat jira-github-autopilot.md");
+  await expect(input).toHaveValue("cd jira-github-autopilot/");
+  await input.press("Enter");
+  await expect(page.locator("form .accent")).toHaveText("saumil@agarwal:~/projects/jira-github-autopilot$");
+  await input.fill("cat README.md");
   await input.press("Enter");
   await expect(page.getByText("# Jira → GitHub Autopilot")).toBeVisible();
+  await input.fill("open .");
+  await input.press("Enter");
+  await expect(page).toHaveURL(/\/projects\/jira-github-autopilot$/);
 });

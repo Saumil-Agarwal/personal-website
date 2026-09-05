@@ -57,6 +57,12 @@ describe("portfolio home", () => {
     expect(projects.compareDocumentPosition(experience) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
   });
 
+  it("shows personal interests beyond technical work", () => {
+    render(<Home />);
+    expect(screen.getByText(/badminton, padel, or squash/i)).toBeVisible();
+    expect(screen.getByText(/cooking new cuisines/i)).toBeVisible();
+  });
+
   it("exposes every primary portfolio section and key links", () => {
     render(<Home />);
 

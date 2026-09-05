@@ -31,7 +31,7 @@ it("supports history and tab completion", () => {
   expect(input).toHaveValue("whoami");
 });
 
-it("changes directories and completes project filenames", () => {
+it("changes into project directories and completes their files", () => {
   render(<Terminal />);
   const input = screen.getByRole("textbox", { name: /terminal command/i });
 
@@ -39,7 +39,23 @@ it("changes directories and completes project filenames", () => {
   fireEvent.submit(input.closest("form")!);
   expect(screen.getByText("saumil@agarwal:~/projects$", { selector: "form .accent" })).toBeVisible();
 
-  fireEvent.change(input, { target: { value: "cat jira" } });
+  fireEvent.change(input, { target: { value: "cd jira" } });
   fireEvent.keyDown(input, { key: "Tab" });
-  expect(input).toHaveValue("cat jira-github-autopilot.md");
+  expect(input).toHaveValue("cd jira-github-autopilot/");
+  fireEvent.submit(input.closest("form")!);
+  expect(screen.getByText("saumil@agarwal:~/projects/jira-github-autopilot$", { selector: "form .accent" })).toBeVisible();
+
+  fireEvent.change(input, { target: { value: "cat READ" } });
+  fireEvent.keyDown(input, { key: "Tab" });
+  expect(input).toHaveValue("cat README.md");
+});
+
+it("prints the current command history", () => {
+  render(<Terminal />);
+  const input = screen.getByRole("textbox", { name: /terminal command/i });
+  fireEvent.change(input, { target: { value: "whoami" } });
+  fireEvent.submit(input.closest("form")!);
+  fireEvent.change(input, { target: { value: "history" } });
+  fireEvent.submit(input.closest("form")!);
+  expect(screen.getByText(/1\s+whoami/)).toBeVisible();
 });

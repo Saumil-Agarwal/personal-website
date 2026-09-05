@@ -21,5 +21,10 @@ export function applyCommandResult(result: CommandResult) {
 
   if (result.target?.endsWith(".pdf")) {
     window.open(result.target, "_blank", "noopener,noreferrer");
+    return;
+  }
+
+  if (result.target?.startsWith("/")) {
+    window.open(result.target, "_self");
   }
 }

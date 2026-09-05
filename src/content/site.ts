@@ -15,7 +15,8 @@ export const profile: Profile = {
   email: "saumil.agarwal.28@gmail.com",
   summary:
     "I build and own production systems at the intersection of distributed infrastructure, network security, and applied AI. Over four years, I have led cross-functional work from design through production support. I am interested in teams building useful, production-grade applied AI products.",
-  currently: "Member of Technical Staff at Nutanix and founder of Twofold Editions.",
+  interests:
+    "Away from a screen, I am always up for badminton, padel, or squash; cooking new cuisines; walking around lakes; meeting new people; trying new experiences; and making cool things.",
   resumeUrl: "/saumil-agarwal-resume.pdf",
   availability: "Open to conversations about applied AI and systems work.",
   links: {
@@ -226,6 +227,12 @@ export const skillGroups: SkillGroup[] = [
 ];
 
 export const qa: QuestionAnswer[] = [
+  {
+    question: "What does he enjoy outside work?",
+    answer:
+      "Saumil is always up for badminton, padel, or squash. He also enjoys cooking new cuisines, walking around lakes, meeting new people, trying new experiences, and making cool things.",
+    keywords: ["interests", "hobbies", "outside", "badminton", "padel", "squash", "cooking", "people"],
+  },
   {
     question: "What did he build at Nutanix?",
     answer:

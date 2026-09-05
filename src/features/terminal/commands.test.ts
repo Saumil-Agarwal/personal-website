@@ -28,16 +28,34 @@ describe("terminal command registry", () => {
     expect(executeCommand("cd projects").cwd).toBe("/projects");
   });
 
-  it("lists and reads project files from the projects directory", () => {
-    expect(executeCommand("ls", "/projects").lines).toContain("jira-github-autopilot.md");
-    expect(executeCommand("cat jira-github-autopilot.md", "/projects").lines?.join(" ")).toContain("Jira → GitHub Autopilot");
-    expect(executeCommand("cd ..", "/projects").cwd).toBe("/");
-    expect(executeCommand("pwd", "/projects").lines).toEqual(["/projects"]);
+  it("models every project as a navigable directory with useful files", () => {
+    expect(executeCommand("ls", "/projects").lines).toContain("jira-github-autopilot/");
+    expect(executeCommand("cd jira-github-autopilot", "/projects").cwd).toBe("/projects/jira-github-autopilot");
+    expect(executeCommand("ls", "/projects/jira-github-autopilot").lines).toEqual(["README.md", "architecture.txt", "impact.txt", "links.txt"]);
+    expect(executeCommand("cat README.md", "/projects/jira-github-autopilot").lines?.join(" ")).toContain("Jira → GitHub Autopilot");
+    expect(executeCommand("cd ../rdma-qos", "/projects/jira-github-autopilot").cwd).toBe("/projects/rdma-qos");
+    expect(executeCommand("cd /", "/projects/rdma-qos").cwd).toBe("/");
+  });
+
+  it("resolves absolute and relative paths", () => {
+    expect(executeCommand("cat /projects/rdma-qos/architecture.txt").lines?.join(" ")).toContain("NVIDIA Mellanox NICs");
+    expect(executeCommand("ls projects/tenant-isolation").lines).toContain("README.md");
+    expect(executeCommand("cd ~", "/projects/rdma-qos").cwd).toBe("/");
+    expect(executeCommand("cat /projects/rdma-qos/missing/README.md").lines?.[0]).toContain("No such file");
+  });
+
+  it("offers tree, open, and history commands", () => {
+    expect(executeCommand("tree projects").lines?.join("\n")).toContain("jira-github-autopilot/");
+    expect(executeCommand("tree /").lines).toContain("├── skills.txt");
+    expect(executeCommand("tree /").lines).toContain("├── contact.txt");
+    expect(executeCommand("open .", "/projects/twofold-editions")).toMatchObject({ kind: "navigate", target: "/projects/twofold-editions" });
+    expect(executeCommand("history", "/", ["whoami", "ls"])).toMatchObject({ lines: ["1  whoami", "2  ls"] });
   });
 
   it("tab-completes commands and filesystem paths in context", () => {
     expect(completeCommand("cat ski", "/")).toBe("cat skills.txt");
     expect(completeCommand("cd pro", "/")).toBe("cd projects/");
-    expect(completeCommand("cat jira", "/projects")).toBe("cat jira-github-autopilot.md");
+    expect(completeCommand("cd jira", "/projects")).toBe("cd jira-github-autopilot/");
+    expect(completeCommand("cat arch", "/projects/jira-github-autopilot")).toBe("cat architecture.txt");
   });
 });

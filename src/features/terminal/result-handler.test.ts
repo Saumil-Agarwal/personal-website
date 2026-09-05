@@ -30,3 +30,12 @@ it("opens the resume in a new tab without replacing the portfolio", () => {
   expect(open).toHaveBeenCalledWith("/saumil-agarwal-resume.pdf", "_blank", "noopener,noreferrer");
   open.mockRestore();
 });
+
+it("opens internal project routes in the current tab", () => {
+  const open = vi.spyOn(window, "open").mockReturnValue(null);
+
+  applyCommandResult({ kind: "navigate", target: "/projects/rdma-qos" });
+
+  expect(open).toHaveBeenCalledWith("/projects/rdma-qos", "_self");
+  open.mockRestore();
+});

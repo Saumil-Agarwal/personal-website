@@ -196,6 +196,9 @@ h3 { letter-spacing: -.025em; }
   .timeline div { flex-direction: column; gap: .25rem; }
   .terminal { padding: .75rem; font-size: .76rem; overflow: hidden; }
   .terminal-output { overflow-x: auto; }
+  .terminal form { flex-wrap: wrap; }
+  .terminal form .accent { max-width: 100%; overflow-wrap: anywhere; }
+  .terminal input { flex-basis: 12rem; }
   .palette-backdrop { padding: .75rem; align-items: start; }
   .palette { max-height: calc(100svh - 1.5rem); }
   .palette button { align-items: flex-start; flex-direction: column; gap: .2rem; }

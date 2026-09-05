@@ -3,8 +3,8 @@
 import { useRef, useState } from "react";
 import { completeCommand, executeCommand } from "./commands";
 import { applyCommandResult } from "./result-handler";
+import type { Directory } from "./types";
 
-type Directory = "/" | "/projects";
 type Entry = { input: string; lines: string[]; cwd: Directory };
 
 const helpResult = executeCommand("help");
@@ -21,7 +21,7 @@ export function Terminal() {
     event.preventDefault();
     const command = input.trim();
     if (!command) return;
-    const result = executeCommand(command, cwd);
+    const result = executeCommand(command, cwd, [...history].reverse());
     setInput("");
     setHistory((items) => [command, ...items]);
     setHistoryIndex(-1);
