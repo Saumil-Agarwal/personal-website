@@ -13,15 +13,19 @@ test("portfolio core journey, project modal, and SEO resources", async ({ page }
   await expect(page.locator("body")).toContainText("Sitemap");
 });
 
-test("visual layout: layered hero, project visuals, and no overflow", async ({ page }) => {
+test("visual layout: separated hero, project visuals, and no overflow", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator(".site-header")).toBeVisible();
   await expect(page.getByTestId("hero-artwork")).toBeVisible();
   if (page.viewportSize()!.width > 760) {
-    const heroArtworkWidth = await page.getByTestId("hero-artwork").evaluate(
-      (element) => element.getBoundingClientRect().width,
-    );
-    expect(heroArtworkWidth).toBeGreaterThan(520);
+    const [copyBox, artworkBox] = await Promise.all([
+      page.locator(".hero-copy").boundingBox(),
+      page.getByTestId("hero-artwork").boundingBox(),
+    ]);
+    expect(copyBox).not.toBeNull();
+    expect(artworkBox).not.toBeNull();
+    expect(copyBox!.x + copyBox!.width).toBeLessThanOrEqual(artworkBox!.x);
+    expect(artworkBox!.width).toBeLessThanOrEqual(620);
   }
   await expect(page.locator("[data-project-visual]")).toHaveCount(6);
   expect(
