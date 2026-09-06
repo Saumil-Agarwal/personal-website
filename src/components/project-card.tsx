@@ -1,28 +1,16 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
+import Link from "next/link";
 import type { Project } from "@/content/types";
+import { AccessibleDialog } from "./accessible-dialog";
 import { ProjectVisual } from "./project-visual";
 
 export function ProjectCard({ project }: { project: Project }) {
   const [expanded, setExpanded] = useState(false);
   const titleId = `project-${project.slug}-title`;
   const closeRef = useRef<HTMLButtonElement>(null);
-
-  useEffect(() => {
-    if (!expanded) return;
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    closeRef.current?.focus();
-    const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setExpanded(false);
-    };
-    window.addEventListener("keydown", closeOnEscape);
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      window.removeEventListener("keydown", closeOnEscape);
-    };
-  }, [expanded]);
+  const close = useCallback(() => setExpanded(false), []);
 
   return (
     <article className="project-card">
@@ -30,21 +18,18 @@ export function ProjectCard({ project }: { project: Project }) {
       <p className="eyebrow">{project.tags.join(" · ")}</p>
       <h3>{project.title}</h3>
       <p>{project.blurb}</p>
-      <button
+      <div className="project-card-actions"><Link href={`/projects/${project.slug}`} aria-label={`Read case study: ${project.title}`}>Read case study <span aria-hidden="true">→</span></Link><button
         type="button"
         className="project-toggle"
         aria-haspopup="dialog"
-        aria-label={`View project: ${project.title}`}
+        aria-label={`Quick view: ${project.title}`}
         onClick={() => setExpanded(true)}
       >
-        View project <span aria-hidden="true">↗</span>
-      </button>
+        Quick view
+      </button></div>
       {expanded && (
-        <div className="project-modal-backdrop" onMouseDown={(event) => {
-          if (event.target === event.currentTarget) setExpanded(false);
-        }}>
-          <section className="project-modal" role="dialog" aria-modal="true" aria-labelledby={titleId}>
-            <button ref={closeRef} type="button" className="project-modal-close" aria-label="Close project details" onClick={() => setExpanded(false)}>×</button>
+        <AccessibleDialog backdropClassName="project-modal-backdrop" panelClassName="project-modal" labelledBy={titleId} onClose={close} initialFocusRef={closeRef}>
+            <button ref={closeRef} type="button" className="project-modal-close" aria-label="Close project details" onClick={close}>×</button>
             <div className="project-modal-visual"><ProjectVisual slug={project.slug} /></div>
             <p className="eyebrow">{project.tags.join(" · ")}</p>
             <h2 id={titleId}>{project.title}</h2>
@@ -56,8 +41,7 @@ export function ProjectCard({ project }: { project: Project }) {
               <div><h3>Impact</h3><ul>{project.highlights.map((highlight) => <li key={highlight}>{highlight}</li>)}</ul></div>
             </div>
             {project.links?.website && <a className="button primary" href={project.links.website} target="_blank" rel="noreferrer">Visit live project ↗</a>}
-          </section>
-        </div>
+        </AccessibleDialog>
       )}
     </article>
   );

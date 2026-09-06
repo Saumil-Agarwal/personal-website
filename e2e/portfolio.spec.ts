@@ -3,10 +3,14 @@ import { expect, test } from "@playwright/test";
 test("portfolio core journey, project modal, and SEO resources", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByRole("heading", { level: 1, name: "Saumil Agarwal" })).toBeVisible();
-  await page.getByRole("button", { name: /view project: jira/i }).click();
+  await page.getByRole("button", { name: /quick view: jira/i }).click();
   await expect(page.getByRole("dialog", { name: /jira → github autopilot/i })).toBeVisible();
   await expect(page.getByText(/automated the path from Jira issue/i)).toBeVisible();
   await expect(page).toHaveURL(/\/$/);
+  await page.getByRole("button", { name: /close project details/i }).click();
+  await page.getByRole("link", { name: /read case study: jira/i }).click();
+  await expect(page).toHaveURL(/projects\/jira-github-autopilot/);
+  await expect(page.getByRole("heading", { name: "Problem" })).toBeVisible();
   await expect(page.goto("/sitemap.xml")).resolves.toBeTruthy();
   await expect(page.locator("body")).toContainText("projects/jira-github-autopilot");
   await expect(page.goto("/robots.txt")).resolves.toBeTruthy();

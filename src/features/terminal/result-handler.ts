@@ -6,7 +6,11 @@ export function toggleTheme() {
   const nextTheme =
     document.documentElement.dataset.theme === "light" ? "dark" : "light";
   document.documentElement.dataset.theme = nextTheme;
-  window.localStorage?.setItem("saumil-theme", nextTheme);
+  try {
+    window.localStorage?.setItem("saumil-theme", nextTheme);
+  } catch {
+    // The visual preference still applies when storage is restricted.
+  }
 }
 
 export function applyCommandResult(result: CommandResult) {

@@ -1,6 +1,4 @@
 import { render, screen } from "@testing-library/react";
-import { act } from "react";
-import { vi } from "vitest";
 import Home from "@/app/page";
 import { Hero } from "./hero";
 
@@ -30,7 +28,7 @@ describe("portfolio home", () => {
   it("preserves all three hero CTAs alongside the artwork", () => {
     render(<Home />);
     expect(screen.getByRole("link", { name: /view projects/i })).toBeVisible();
-    expect(screen.getByRole("link", { name: /ask the ai/i })).toBeVisible();
+    expect(screen.getByRole("link", { name: /explore the portfolio/i })).toBeVisible();
     expect(screen.getByRole("link", { name: /^resume$/i })).toBeVisible();
   });
 
@@ -78,7 +76,7 @@ describe("portfolio home", () => {
       expect(document.getElementById(id)).toBeTruthy();
     }
 
-    expect(screen.getAllByRole("button", { name: /view project/i }).length).toBeGreaterThan(0);
+    expect(screen.getAllByRole("button", { name: /quick view/i }).length).toBeGreaterThan(0);
     expect(screen.getByRole("link", { name: /download resume/i })).toHaveAttribute(
       "href",
       "/saumil-agarwal-resume.pdf",
@@ -89,32 +87,23 @@ describe("portfolio home", () => {
     );
   });
 
-  it("streams the hero tagline and completes it", () => {
-    vi.useFakeTimers();
+  it("renders the complete role proposition without waiting for JavaScript", () => {
     render(<Hero />);
-
-    expect(screen.getByTestId("hero-tagline")).toHaveTextContent(/^$/);
-
-    act(() => vi.advanceTimersByTime(2_000));
-    expect(screen.getByTestId("hero-tagline")).toHaveTextContent(
-      /Member of Technical Staff/,
-    );
-    vi.useRealTimers();
+    expect(screen.getByTestId("hero-tagline")).toHaveTextContent(/Member of Technical Staff.+Agentic AI/);
   });
 
-  it("retypes the hero tagline at regular intervals", () => {
-    vi.useFakeTimers();
-    render(<Hero />);
+  it("links every project to its canonical case study", () => {
+    render(<Home />);
+    expect(screen.getByRole("link", { name: /read case study: jira/i })).toHaveAttribute(
+      "href",
+      "/projects/jira-github-autopilot",
+    );
+  });
 
-    act(() => vi.advanceTimersByTime(2_000));
-    expect(screen.getByTestId("hero-tagline")).toHaveTextContent(/Agentic AI$/);
-
-    act(() => vi.advanceTimersByTime(4_500));
-    expect(screen.getByTestId("hero-tagline")).toHaveTextContent(/^$/);
-
-    act(() => vi.advanceTimersByTime(1_200));
-    expect(screen.getByTestId("hero-tagline").textContent?.length).toBeGreaterThan(0);
-    vi.useRealTimers();
+  it("renders education and proof points", () => {
+    render(<Home />);
+    expect(screen.getByText(/BITS Pilani/)).toBeVisible();
+    expect(screen.getByText(/12 teams coordinated/i)).toBeVisible();
   });
 
   it("renders artwork passed as children inside the hero section", () => {

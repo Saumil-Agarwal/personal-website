@@ -14,7 +14,7 @@ it("streams a suggested answer and disables controls while thinking", async () =
 
   await act(async () => {});
   await act(async () => vi.advanceTimersByTimeAsync(5_000));
-  expect(screen.getByText(/Jira → GitHub Autopilot/)).toBeVisible();
+  expect(document.querySelector(".chat-answer")).toHaveTextContent(/Jira → GitHub Autopilot/);
   expect(screen.getByRole("button", { name: /ask/i })).toBeEnabled();
   vi.useRealTimers();
 });
@@ -42,11 +42,11 @@ it("submits typed questions, ignores empty values, and handles repeats", async (
   fireEvent.submit(form);
   await act(async () => {});
   await act(async () => vi.advanceTimersByTimeAsync(5_000));
-  expect(screen.getByText(/distributed telemetry/i)).toBeVisible();
+  expect(document.querySelector(".chat-answer")).toHaveTextContent(/distributed telemetry/i);
 
   fireEvent.submit(form);
   await act(async () => {});
   await act(async () => vi.advanceTimersByTimeAsync(5_000));
-  expect(screen.getByText(/distributed telemetry/i)).toBeVisible();
+  expect(document.querySelector(".chat-answer")).toHaveTextContent(/distributed telemetry/i);
   vi.useRealTimers();
 });

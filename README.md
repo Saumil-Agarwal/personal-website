@@ -8,7 +8,7 @@ A dark-first, terminal-inspired portfolio built with Next.js App Router, React, 
 
 - `src/content/site.ts` — the single typed source for profile, experience, projects, skills, and Q&A.
 - `src/components/` — server-first portfolio sections plus focused client enhancements.
-- `src/components/hero-artwork.tsx` — decorative SVG/CSS hero artwork (organic core, orbit rings, network nodes, glow, grid, caption). Hidden from assistive technology. No image assets or animation libraries.
+- `src/components/hero-artwork.tsx` — decorative SVG/CSS secure distributed-plane diagram. Hidden from assistive technology. No image assets or animation libraries.
 - `src/components/project-visual.tsx` — reusable diagram-style SVG visual keyed by project slug (workflow, network, services, layers, stream, object). Falls back to a neutral visual for unknown slugs.
 - `src/features/terminal/` — pure command registry, browser result handler, and terminal UI.
 - `src/features/command-palette/` — keyboard command search using the same terminal registry.
@@ -17,7 +17,7 @@ A dark-first, terminal-inspired portfolio built with Next.js App Router, React, 
 
 ### Visual design
 
-The homepage uses a full-width deep-emerald sticky glass header and an editorial two-column hero layout. Hero artwork and project visuals are pure SVG/CSS with subtle `transform`/`opacity` animations (core drift, ring rotation, node pulse, scan sweep). When `prefers-reduced-motion: reduce` is active, all animation names are set to `none` and the artwork renders statically. On mobile (below 760 px), the hero stacks to a single column and artwork scales down. No stock images, canvas/WebGL, or external animation packages are used.
+The homepage uses a full-width deep-emerald sticky glass header and an editorial two-column hero layout. Hero artwork and project visuals are pure SVG/CSS with subtle routed-packet animations. When `prefers-reduced-motion: reduce` is active, all animation names are set to `none` and the artwork renders statically. On mobile (below 760 px), the hero stacks to a single column and artwork scales down. No stock images, canvas/WebGL, or external animation packages are used.
 
 Supabase is intentionally unused: the launch has no persistence or authentication requirements, and its AI is stateless scripted matching rather than a live model backend.
 

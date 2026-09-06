@@ -9,6 +9,7 @@ export function AiChat() {
   const [answer, setAnswer] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [announcement, setAnnouncement] = useState("");
   const timerRef = useRef<number | undefined>(undefined);
 
   useEffect(() => () => {
@@ -18,6 +19,7 @@ export function AiChat() {
   function stream(text: string) {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       setAnswer(text);
+      setAnnouncement(text);
       setLoading(false);
       return;
     }
@@ -29,6 +31,7 @@ export function AiChat() {
         if (timerRef.current) window.clearInterval(timerRef.current);
         timerRef.current = undefined;
         setLoading(false);
+        setAnnouncement(text);
       }
     }, 14);
   }
@@ -54,9 +57,11 @@ export function AiChat() {
           <button key={prompt} onClick={() => { setQuestion(prompt); void ask(prompt); }} disabled={loading}>{prompt}</button>
         ))}
       </div>
-      <div aria-live="polite" className="chat-answer">
+      <p className="chat-scope">A scripted guide to systems work, projects, and interests.</p>
+      <div className="chat-answer">
         {loading && !answer ? "Thinking…" : answer || "Ask about Saumil’s systems work, projects, or interests."}
       </div>
+      <p className="sr-only" role="status" aria-live="polite">{announcement}</p>
       {error && <p role="alert">{error}</p>}
       <form onSubmit={(event) => { event.preventDefault(); void ask(); }}>
         <label htmlFor="ask-question">Your question</label>

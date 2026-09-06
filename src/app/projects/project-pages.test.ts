@@ -7,7 +7,15 @@ describe("project route data", () => {
     expect(projectParams()).toEqual(projects.map(({ slug }) => ({ slug })));
   });
   it("creates metadata for known projects and rejects unknown ones", () => {
-    expect(projectMetadata(projects[0].slug)?.title).toContain(projects[0].title);
+    expect(projectMetadata(projects[0].slug)).toMatchObject({
+      title: projects[0].title,
+      alternates: { canonical: `/projects/${projects[0].slug}` },
+      openGraph: {
+        title: projects[0].title,
+        description: projects[0].blurb,
+        url: `/projects/${projects[0].slug}`,
+      },
+    });
     expect(projectMetadata("missing")).toBeUndefined();
   });
 });

@@ -14,10 +14,11 @@ import { Terminal } from "@/features/terminal/terminal";
 export default function Home() {
   return (
     <>
+      <a className="skip-link" href="#main-content">Skip to main content</a>
       <header className="site-header">
         <Nav />
       </header>
-      <main>
+      <main id="main-content" tabIndex={-1}>
         <Hero><HeroArtwork /></Hero>
         <div className="shell">
           <About />
@@ -31,7 +32,7 @@ export default function Home() {
           </section>
           <section id="ask" className="section" aria-labelledby="ask-title">
             <p className="eyebrow">06 / ask</p>
-            <h2 id="ask-title">Ask me anything about Saumil.</h2>
+            <h2 id="ask-title">Explore Saumil’s portfolio.</h2>
             <AiChat />
           </section>
           <Contact />

@@ -39,3 +39,13 @@ it("opens internal project routes in the current tab", () => {
   expect(open).toHaveBeenCalledWith("/projects/rdma-qos", "_self");
   open.mockRestore();
 });
+
+it("keeps the theme usable when storage is unavailable", () => {
+  document.documentElement.dataset.theme = "dark";
+  const storage = vi.spyOn(Storage.prototype, "setItem").mockImplementation(() => {
+    throw new DOMException("blocked");
+  });
+  expect(() => applyCommandResult({ kind: "theme" })).not.toThrow();
+  expect(document.documentElement.dataset.theme).toBe("light");
+  storage.mockRestore();
+});
