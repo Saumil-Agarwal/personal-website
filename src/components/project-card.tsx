@@ -1,7 +1,6 @@
 "use client";
 
 import { useCallback, useRef, useState } from "react";
-import Link from "next/link";
 import type { Project } from "@/content/types";
 import { AccessibleDialog } from "./accessible-dialog";
 import { ProjectVisual } from "./project-visual";
@@ -18,7 +17,7 @@ export function ProjectCard({ project }: { project: Project }) {
       <p className="eyebrow">{project.tags.join(" · ")}</p>
       <h3>{project.title}</h3>
       <p>{project.blurb}</p>
-      <div className="project-card-actions"><Link href={`/projects/${project.slug}`} aria-label={`Read case study: ${project.title}`}>Read case study <span aria-hidden="true">→</span></Link><button
+      <div className="project-card-actions"><button
         type="button"
         className="project-toggle"
         aria-haspopup="dialog"

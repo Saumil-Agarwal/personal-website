@@ -8,9 +8,35 @@ test("portfolio core journey, project modal, and SEO resources", async ({ page }
   await expect(page.getByText(/automated the path from Jira issue/i)).toBeVisible();
   await expect(page).toHaveURL(/\/$/);
   await page.getByRole("button", { name: /close project details/i }).click();
-  await page.getByRole("link", { name: /read case study: jira/i }).click();
-  await expect(page).toHaveURL(/projects\/jira-github-autopilot/);
-  await expect(page.getByRole("heading", { name: "Problem" })).toBeVisible();
+  await expect(page.getByRole("link", { name: /read case study/i })).toHaveCount(0);
+  await page.getByRole("button", { name: /quick view: twofold/i }).click();
+  const hoverContrast = async () => {
+    const liveProject = page.getByRole("link", { name: /visit live project/i });
+    await liveProject.hover();
+    return liveProject.evaluate((element) => {
+      const parse = (value: string) => {
+        const channels = value.match(/[\d.]+/g)!.slice(0, 3).map(Number);
+        return value.startsWith("color(srgb") ? channels.map((channel) => channel * 255) : channels;
+      };
+      const luminance = (value: string) => {
+        const channels = parse(value).map((channel) => {
+          const normalized = channel / 255;
+          return normalized <= 0.04045 ? normalized / 12.92 : ((normalized + 0.055) / 1.055) ** 2.4;
+        });
+        return 0.2126 * channels[0] + 0.7152 * channels[1] + 0.0722 * channels[2];
+      };
+      const styles = getComputedStyle(element);
+      const foreground = luminance(styles.color);
+      const background = luminance(styles.backgroundColor);
+      return (Math.max(foreground, background) + 0.05) / (Math.min(foreground, background) + 0.05);
+    });
+  };
+  expect(await hoverContrast()).toBeGreaterThanOrEqual(4.5);
+  await page.getByRole("button", { name: /close project details/i }).click();
+  await page.getByRole("button", { name: /toggle color theme/i }).click();
+  await page.getByRole("button", { name: /quick view: twofold/i }).click();
+  expect(await hoverContrast()).toBeGreaterThanOrEqual(4.5);
+  await page.getByRole("button", { name: /close project details/i }).click();
   await expect(page.goto("/sitemap.xml")).resolves.toBeTruthy();
   await expect(page.locator("body")).toContainText("projects/jira-github-autopilot");
   await expect(page.goto("/robots.txt")).resolves.toBeTruthy();

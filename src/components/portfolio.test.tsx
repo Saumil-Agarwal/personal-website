@@ -1,4 +1,5 @@
-import { render, screen } from "@testing-library/react";
+import { act, render, screen } from "@testing-library/react";
+import { vi } from "vitest";
 import Home from "@/app/page";
 import { Hero } from "./hero";
 
@@ -87,23 +88,33 @@ describe("portfolio home", () => {
     );
   });
 
-  it("renders the complete role proposition without waiting for JavaScript", () => {
+  it("types the hero tagline after starting with an empty terminal line", () => {
+    vi.useFakeTimers();
     render(<Hero />);
-    expect(screen.getByTestId("hero-tagline")).toHaveTextContent(/Member of Technical Staff.+Agentic AI/);
-  });
+    expect(screen.getByTestId("hero-tagline")).toHaveTextContent(/^$/);
 
-  it("links every project to its canonical case study", () => {
-    render(<Home />);
-    expect(screen.getByRole("link", { name: /read case study: jira/i })).toHaveAttribute(
-      "href",
-      "/projects/jira-github-autopilot",
+    act(() => vi.advanceTimersByTime(2_000));
+    expect(screen.getByTestId("hero-tagline")).toHaveTextContent(
+      /Member of Technical Staff.+Agentic AI/,
     );
+    vi.useRealTimers();
   });
 
-  it("renders education and proof points", () => {
+  it("offers only quick view on project cards", () => {
     render(<Home />);
+    expect(screen.getAllByRole("button", { name: /quick view/i })).toHaveLength(6);
+    expect(screen.queryByRole("link", { name: /read case study/i })).not.toBeInTheDocument();
+  });
+
+  it("keeps Twofold in the timeline and Education below it without hero metrics", () => {
+    render(<Home />);
+    const timeline = document.querySelector(".timeline");
+    const twofold = screen.getByText("Twofold Editions · India");
+    const nutanix = screen.getAllByText("Nutanix · Bengaluru, India")[0];
+    expect(timeline).toContainElement(twofold);
+    expect(twofold.compareDocumentPosition(nutanix) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     expect(screen.getByText(/BITS Pilani/)).toBeVisible();
-    expect(screen.getByText(/12 teams coordinated/i)).toBeVisible();
+    expect(screen.queryByText(/12 teams coordinated/i)).not.toBeInTheDocument();
   });
 
   it("renders artwork passed as children inside the hero section", () => {

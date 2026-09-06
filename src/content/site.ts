@@ -27,6 +27,15 @@ export const profile: Profile = {
 
 export const experience: Experience[] = [
   {
+    company: "Twofold Editions",
+    role: "Founder",
+    period: "Jul 2026 – Present",
+    location: "India",
+    highlights: [
+      "Designing and manufacturing 3D-printed collectibles while owning the customer experience.",
+    ],
+  },
+  {
     company: "Nutanix",
     role: "Member of Technical Staff – 2",
     period: "Aug 2024 – Present",
@@ -72,15 +81,6 @@ export const experience: Experience[] = [
     location: "Remote · MITACS Globalink Scholar",
     highlights: [
       "Applied stochastic processes and machine learning to biological network data.",
-    ],
-  },
-  {
-    company: "Twofold Editions",
-    role: "Founder",
-    period: "Jul 2026 – Present",
-    location: "India",
-    highlights: [
-      "Designing and manufacturing 3D-printed collectibles while owning the customer experience.",
     ],
   },
 ];
