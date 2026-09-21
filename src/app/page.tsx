@@ -1,4 +1,4 @@
-import { ArchitectureScene } from "@/components/architecture-scene";
+import { ChapterNavigation } from "@/components/chapter-navigation";
 import { MotionControls } from "@/components/motion-controls";
 import { About } from "@/components/about";
 import { Contact } from "@/components/contact";
@@ -22,18 +22,17 @@ export default function Home() {
       </header>
       <main id="main-content" tabIndex={-1}>
         <Hero><HeroArtwork /></Hero>
-        <ArchitectureScene />
         <div className="shell portfolio-content">
           <About />
           <Projects />
           <ExperienceTimeline />
           <SkillsGrid />
-          <section id="terminal" className="section" aria-labelledby="terminal-title">
+          <section id="terminal" className="section story-chapter" aria-labelledby="terminal-title">
             <p className="eyebrow">05 / terminal</p>
             <h2 id="terminal-title">A shortcut to the details.</h2>
             <Terminal />
           </section>
-          <section id="ask" className="section" aria-labelledby="ask-title">
+          <section id="ask" className="section story-chapter" aria-labelledby="ask-title">
             <p className="eyebrow">06 / ask</p>
             <h2 id="ask-title">Explore Saumil’s portfolio.</h2>
             <AiChat />
@@ -43,6 +42,7 @@ export default function Home() {
       </main>
       <Footer />
       <MotionControls />
+      <ChapterNavigation />
       <CommandPalette />
     </>
   );

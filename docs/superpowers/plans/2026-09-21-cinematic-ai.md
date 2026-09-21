@@ -20,3 +20,13 @@ Execution: Inline, as requested by the user.
 - Screenshots inspected: desktop hero, architecture scene, gallery, and mobile layout. No runtime page errors or horizontal overflow in the inspected journeys.
 - Independent review identified a 641–760px navigation gap and paused root smooth scrolling; both fixed. Full independent review could not finish because the reviewer hit a usage limit. Author review and browser checks completed.
 - Chosen implementation: deterministic SVG and native scroll keep the effect dependency-free; AI remains a visual theme with the existing clearly labeled scripted Q&A.
+
+## Revision: continuous scrolling (user-requested)
+
+- [x] Replace the isolated pinned scene with 13 chapters, beginning at the hero.
+- [x] Give each project a complete composition and truthful impact callout.
+- [x] Add chapter rail, progress, next links, native desktop snap and decorative parallax.
+- [x] Preserve natural mobile/reduced-motion flow, pause, direct anchors, dialogs and all existing tools.
+- [x] Verify desktop/mobile journeys and inspect six viewport widths from 320 to 1440px with no horizontal overflow or runtime errors.
+
+Native anchor jumps suspend scroll snapping until the next gesture so an unfinished wheel snap cannot pull visitors away from their chosen chapter. Longer chapters may extend beyond one viewport to keep content reachable.

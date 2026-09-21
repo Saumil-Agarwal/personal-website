@@ -10,3 +10,6 @@ Retain Next.js, React, typed content, project routes, semantic landmarks, and th
 
 ## Acceptance
 Desktop/mobile layouts have no horizontal overflow. All projects, modal keyboard behavior, terminal, Q&A, navigation, resume, and both themes work. Reduced motion and disabled JavaScript retain content. Run lint, typecheck, unit tests, production build, browser journeys, and inspect desktop/mobile screenshots before commit and push.
+
+## Revision: continuous chapter experience
+The user requested useful scrolling from the top, with each scroll revealing a next page. Replace the isolated architecture pin with native desktop scroll snapping throughout the portfolio. A full-screen introduction leads to philosophy, six individually composed project chapters with real impact, experience, capabilities, terminal, Q&A, and contact. A persistent chapter navigator tracks progress and supports direct links, next-chapter navigation, keyboard access, and back-to-top. Mobile and reduced motion use natural flow. Transforms apply only to decorative art and remain optional. Keep all functional features and existing truthful content. Continue on the requested feature branch.

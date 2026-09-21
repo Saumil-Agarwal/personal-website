@@ -1,38 +1,43 @@
 import { expect, test } from "@playwright/test";
 
-test("scroll unfolds the architecture; pause restores every discipline", async ({ page, viewport }) => {
-  test.skip(!viewport || viewport.width <= 760, "desktop scroll scene");
+test("the first scroll advances the story and navigation follows project chapters", async ({ page, viewport }) => {
+  test.skip(!viewport || viewport.width <= 760, "desktop chapter snapping");
   await page.goto("/");
-  const scene = page.locator("#architecture");
-  await expect(scene).toHaveAttribute("data-animated", "true");
-  await scene.evaluate((element) => window.scrollTo({ top: element.getBoundingClientRect().top + window.scrollY + (element.clientHeight - window.innerHeight) * .85, behavior: "instant" }));
-  await expect(scene.locator('[aria-current="step"] h3')).toHaveText("Intelligence↗");
+  const navigator = page.getByRole("navigation", { name: "Portfolio chapters" });
+  await expect(navigator.getByRole("link", { name: "Introduction", exact: true })).toHaveAttribute("aria-current", "step");
+  await page.mouse.wheel(0, 650);
+  await expect(navigator.getByRole("link", { name: "Philosophy", exact: true })).toHaveAttribute("aria-current", "step");
+  await navigator.getByRole("link", { name: "Agentic AI", exact: true }).click();
+  await expect(page.locator("#work-jira-github-autopilot")).toBeInViewport({ ratio: .65 });
+  await expect(navigator.getByRole("link", { name: "Agentic AI", exact: true })).toHaveAttribute("aria-current", "step");
+  await page.getByRole("link", { name: /next chapter: networking/i }).click();
+  await expect(navigator.getByRole("link", { name: "Networking", exact: true })).toHaveAttribute("aria-current", "step");
+  await page.mouse.move(60, 200);
+  await page.mouse.wheel(0, 650);
+  await expect(navigator.getByRole("link", { name: "Security", exact: true })).toHaveAttribute("aria-current", "step");
   await page.getByRole("button", { name: "Pause animations" }).click();
-  await expect(scene).toHaveAttribute("data-animated", "false");
-  expect(await page.locator("html").evaluate(element => getComputedStyle(element).scrollBehavior)).toBe("auto");
-  for (const title of ["Systems", "Security", "Intelligence"]) {
-    await expect(scene.getByRole("heading", { name: title, exact: false })).toBeVisible();
-  }
-  await page.getByRole("button", { name: "Resume animations" }).click();
-  await expect(scene).toHaveAttribute("data-animated", "true");
+  expect(await page.locator("html").evaluate(element => getComputedStyle(element).scrollSnapType)).toBe("none");
 });
 
-test("reduced motion keeps all chapters readable without a pinned scene", async ({ page }) => {
+test("reduced motion preserves all content without snapping or animated geometry", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
-  await expect(page.locator("#architecture")).toHaveAttribute("data-animated", "false");
-  expect(await page.locator(".neural-orbit").evaluate((element) => getComputedStyle(element).animationName)).toBe("none");
-  await expect(page.locator(".discipline")).toHaveCount(3);
-  for (const chapter of await page.locator(".discipline").all()) await expect(chapter).toBeVisible();
+  expect(await page.locator("html").evaluate(element => getComputedStyle(element).scrollSnapType)).toBe("none");
+  expect(await page.locator(".neural-orbit").evaluate(element => getComputedStyle(element).animationName)).toBe("none");
+  await expect(page.locator("[data-project-visual]")).toHaveCount(6);
+  await page.getByRole("link", { name: "View projects" }).click();
+  await expect(page.locator("#work-jira-github-autopilot .project-chapter-meta")).toBeInViewport();
+  await page.getByRole("button", { name: /quick view: jira/i }).click();
+  await expect(page.getByRole("dialog", { name: /jira/i })).toBeVisible();
 });
 
-test("content and project destinations survive without JavaScript", async ({ browser, baseURL }) => {
+test("project details remain reachable without JavaScript", async ({ browser, baseURL }) => {
   const context = await browser.newContext({ javaScriptEnabled: false });
   const page = await context.newPage();
   await page.goto(baseURL!);
   await expect(page.getByRole("heading", { level: 1, name: "Saumil Agarwal" })).toBeVisible();
-  for (const chapter of await page.locator(".discipline").all()) await expect(chapter).toBeVisible();
-  await expect(page.getByRole("link", { name: "View projects" })).toHaveAttribute("href", "#projects");
+  await page.getByRole("link", { name: "Open project details ↗" }).first().click();
+  await expect(page).toHaveURL(/projects\/jira-github-autopilot/);
   await context.close();
 });
 

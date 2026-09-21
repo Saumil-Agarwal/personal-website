@@ -17,12 +17,13 @@ A dark-first, terminal-inspired portfolio built with Next.js App Router, React, 
 
 ### Visual design
 
-The cinematic portfolio uses oversized ivory typography, an obsidian canvas, mint accents, and a custom SVG neural core. A native-scroll architecture scene unfolds three layers: systems, security, and applied AI. The editorial project gallery preserves the existing quick-view dialogs and project routes.
+The cinematic portfolio uses oversized ivory typography, an obsidian canvas, mint accents, and a custom SVG neural core. The experience starts at the hero and continues through 13 native-scroll chapters. Each project has its own scene, a distinct accent, and an evidence-backed impact statement. A chapter rail and persistent progress bar support direct jumps and next-chapter navigation. Quick-view dialogs and project routes remain available.
 
 - `src/app/cinematic.css` contains the redesign styles, loaded after shared base styles.
-- `src/components/architecture-scene.tsx` owns the sticky scene. One passive scroll listener schedules a frame only when needed; transforms are written to a local CSS variable without per-frame React renders.
+- `src/app/story.css` defines the chapter composition and responsive snap behavior.
+- `src/components/chapter-navigation.tsx` tracks active chapters and schedules decorative transforms through one animation frame per scroll update. Direct anchor jumps temporarily suspend snap to cancel pending wheel momentum; native snap resumes on the next gesture or navigation key.
 - `src/components/motion-controls.tsx` provides a global pause/resume control.
-- Mobile and reduced-motion users get all three disciplines in normal document flow. Content is server rendered; project links are available in a no-JavaScript fallback.
+- Mobile and reduced-motion users get every chapter in normal document flow. Content is server rendered; project links are available in a no-JavaScript fallback.
 - Both light and dark themes remain available. No new runtime dependencies, external image requests, or AI service credentials are required. The portfolio Q&A remains explicitly scripted.
 
 For environments that restrict Turbopack worker ports, use `npm run build -- --webpack` to run the supported Next.js production-build fallback. Google Fonts must be reachable for the existing `next/font` configuration.
