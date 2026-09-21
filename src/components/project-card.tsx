@@ -13,7 +13,10 @@ export function ProjectCard({ project }: { project: Project }) {
 
   return (
     <article className="project-card">
+      <div className="project-art">
       <ProjectVisual slug={project.slug} />
+      </div>
+      <div className="project-copy">
       <p className="eyebrow">{project.tags.join(" · ")}</p>
       <h3>{project.title}</h3>
       <p>{project.blurb}</p>
@@ -24,8 +27,10 @@ export function ProjectCard({ project }: { project: Project }) {
         aria-label={`Quick view: ${project.title}`}
         onClick={() => setExpanded(true)}
       >
-        Quick view
+        Explore project <span aria-hidden="true">↗</span>
       </button></div>
+      </div>
+      <noscript><a className="button" href={`/projects/${project.slug}`}>Open project details ↗</a></noscript>
       {expanded && (
         <AccessibleDialog backdropClassName="project-modal-backdrop" panelClassName="project-modal" labelledBy={titleId} onClose={close} initialFocusRef={closeRef}>
             <button ref={closeRef} type="button" className="project-modal-close" aria-label="Close project details" onClick={close}>×</button>

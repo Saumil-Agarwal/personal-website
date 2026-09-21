@@ -1,3 +1,5 @@
+import { ArchitectureScene } from "@/components/architecture-scene";
+import { MotionControls } from "@/components/motion-controls";
 import { About } from "@/components/about";
 import { Contact } from "@/components/contact";
 import { ExperienceTimeline } from "@/components/experience-timeline";
@@ -20,7 +22,8 @@ export default function Home() {
       </header>
       <main id="main-content" tabIndex={-1}>
         <Hero><HeroArtwork /></Hero>
-        <div className="shell">
+        <ArchitectureScene />
+        <div className="shell portfolio-content">
           <About />
           <Projects />
           <ExperienceTimeline />
@@ -39,6 +42,7 @@ export default function Home() {
         </div>
       </main>
       <Footer />
+      <MotionControls />
       <CommandPalette />
     </>
   );

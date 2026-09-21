@@ -15,8 +15,14 @@ test("portfolio core journey, project modal, and SEO resources", async ({ page }
     await liveProject.hover();
     return liveProject.evaluate((element) => {
       const parse = (value: string) => {
-        const channels = value.match(/[\d.]+/g)!.slice(0, 3).map(Number);
-        return value.startsWith("color(srgb") ? channels.map((channel) => channel * 255) : channels;
+        // The browser interpolates animated colors in OKLab. Normalize any
+        // supported CSS color to sRGB rather than assuming an rgb() string.
+        const canvas = document.createElement("canvas");
+        canvas.width = canvas.height = 1;
+        const context = canvas.getContext("2d")!;
+        context.fillStyle = value;
+        context.fillRect(0, 0, 1, 1);
+        return Array.from(context.getImageData(0, 0, 1, 1).data).slice(0, 3);
       };
       const luminance = (value: string) => {
         const channels = parse(value).map((channel) => {
