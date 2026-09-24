@@ -25,6 +25,20 @@ function moduleAt(index: number, scene: number): Block {
 
 const sceneLabels = ["SA / CORE", "SYSTEM LAYERS", "AGENT ORCHESTRATION", "ISSUE → PULL REQUEST", "LOSSLESS FABRIC", "SECURE BY DESIGN", "TENANT BOUNDARIES", "ONE SIGNAL. MANY CONSUMERS.", "DIGITAL → PHYSICAL", "ALWAYS BUILDING"];
 
+// Labels explain the visual metaphor; they are not claims about deployed services.
+const annotations: { module: number; text: string }[][] = [
+  [],
+  ["APPLIED AI", "SECURITY", "ISOLATION", "SERVICES", "TELEMETRY", "INFRASTRUCTURE"].map((text, i) => ({ module: i * 9 + 4, text })),
+  ["REPRODUCE", "BUILD", "TEST", "ISSUE", "REVIEW", "PULL REQUEST"].map((text, i) => ({ module: i * 9 + 4, text })),
+  ["REPRODUCE", "BUILD", "TEST", "ISSUE", "REVIEW", "PULL REQUEST"].map((text, i) => ({ module: i * 9 + 4, text })),
+  [{ module: 4, text: "AI TRAFFIC" }, { module: 22, text: "PFC / ECN" }, { module: 49, text: "STORAGE" }],
+  [{ module: 9, text: "POLICY" }, { module: 27, text: "RULES" }, { module: 45, text: "ENFORCEMENT" }],
+  [{ module: 4, text: "TENANT A" }, { module: 22, text: "TENANT B" }, { module: 40, text: "ISOLATION" }],
+  [{ module: 4, text: "PUBLISH" }, { module: 13, text: "JETSTREAM" }, { module: 31, text: "CONSUMER A" }, { module: 40, text: "CONSUMER B" }],
+  [{ module: 4, text: "DESIGN" }, { module: 22, text: "PRINT" }, { module: 49, text: "COLLECT" }],
+  [],
+];
+
 export function drawMachine(ctx: CanvasRenderingContext2D, width: number, height: number, progress: number, light: boolean) {
   const mobile = width < 761;
   const scene = Math.min(9, Math.floor(progress));
@@ -81,9 +95,11 @@ export function drawMachine(ctx: CanvasRenderingContext2D, width: number, height
   // Connections reveal the meaning of the form rather than adding a particle cloud.
   if (p > 1.4 && p < 8.8) {
     const opacity = clamp((p - 1.4) * 2) * clamp(8.8 - p);
+    const order = Math.round(p) === 2 || Math.round(p) === 3 ? [3, 0, 1, 2, 4, 5] : [0, 1, 2, 3, 4, 5];
     for (let i = 0; i < 5; i++) {
-      const start = vectorMix(moduleAt(i * 9 + 4, scene).center, moduleAt(i * 9 + 4, Math.min(scene + 1, 9)).center, t);
-      const end = vectorMix(moduleAt((i + 1) * 9 + 4, scene).center, moduleAt((i + 1) * 9 + 4, Math.min(scene + 1, 9)).center, t);
+      const from = order[i] * 9 + 4, to = order[i + 1] * 9 + 4;
+      const start = vectorMix(moduleAt(from, scene).center, moduleAt(from, Math.min(scene + 1, 9)).center, t);
+      const end = vectorMix(moduleAt(to, scene).center, moduleAt(to, Math.min(scene + 1, 9)).center, t);
       const bend: Vec = [end[0], start[1], start[2] + 32];
       line(start, bend, accent, opacity * .5); line(bend, end, accent, opacity * .5);
       const packet = project(vectorMix(start, end, (p * 2 + i * .17) % 1));
@@ -123,6 +139,36 @@ export function drawMachine(ctx: CanvasRenderingContext2D, width: number, height
     material.addColorStop(0,light?"#e7ebe0":"#3c4939"); material.addColorStop(1,light?"#b2c0a9":"#111a13");
     ctx.fillStyle=material;ctx.fill();ctx.strokeStyle=accent;ctx.lineWidth=1;ctx.stroke();
     const label=project([0,-48-p*120,0]);ctx.fillStyle=accent;ctx.textAlign="center";ctx.font=`${Math.max(12,19*unit)}px monospace`;ctx.fillText("SA / 01",label[0],label[1]);ctx.globalAlpha=1;
+  }
+  // Project each annotation from its own moving module, but keep the text flat
+  // and readable. Leader lines retain the association when labels need spacing.
+  const occupied: { x: number; y: number; width: number }[] = [];
+  ctx.font = `${mobile ? 11 : 12}px monospace`;
+  ctx.textAlign = "center";
+  const activeAnnotations = annotations[Math.min(9, Math.round(p))];
+  const projectedLabels = activeAnnotations.map(annotation => {
+    const start = moduleAt(annotation.module, scene).center;
+    const end = moduleAt(annotation.module, Math.min(scene + 1, 9)).center;
+    return { ...annotation, anchor: project(vectorMix(start, end, t)) };
+  }).sort((a, b) => a.anchor[1] - b.anchor[1]);
+  for (const annotation of projectedLabels) {
+    const [ax, ay] = annotation.anchor;
+    const labelWidth = ctx.measureText(annotation.text).width + 12;
+    const left = mobile ? 12 : width * .52;
+    const right = width - (mobile ? 12 : 42);
+    const x = Math.max(left + labelWidth / 2, Math.min(right - labelWidth / 2, ax));
+    let y = Math.max(mobile ? height * .52 : 110, Math.min(height - 130, ay - (mobile ? 22 : 38)));
+    // Resolve collisions deterministically, including narrow phones and turns
+    // where two modules project onto almost the same screen position.
+    while (occupied.some(box => Math.abs(box.x - x) < (box.width + labelWidth) / 2 + 5 && Math.abs(box.y - y) < 21)) y += 22;
+    occupied.push({ x, y, width: labelWidth });
+    ctx.strokeStyle = trace; ctx.lineWidth = .8;
+    ctx.beginPath(); ctx.moveTo(ax, ay - 6); ctx.lineTo(x, y + 6); ctx.stroke();
+    ctx.fillStyle = light ? "#eeeee5" : "#0b100f";
+    ctx.fillRect(x - labelWidth / 2, y - 13, labelWidth, 19);
+    ctx.fillStyle = ink;
+    ctx.fillText(annotation.text, x, y);
+    ctx.fillStyle = accent; ctx.fillRect(ax - 1.5, ay - 7.5, 3, 3);
   }
   // Readable annotations stay outside the rotating geometry.
   if (!mobile) {
