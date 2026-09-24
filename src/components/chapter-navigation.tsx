@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 
 const chapters = [
   { id: "top", label: "Introduction" },
-  { id: "about", label: "Philosophy" },
+  { id: "about", label: "Systems" },
+  { id: "intelligence", label: "Intelligence" },
   { id: "work-jira-github-autopilot", label: "Agentic AI" },
   { id: "work-rdma-qos", label: "Networking" },
   { id: "work-go-security-microservice", label: "Security" },
@@ -46,19 +47,12 @@ export function ChapterNavigation() {
       });
     };
     const schedule = () => { if (!frame) frame = requestAnimationFrame(update); };
-    const resumeSnap = () => { delete root.dataset.chapterJump; };
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (["ArrowDown", "ArrowUp", "PageDown", "PageUp", "Home", "End", " "].includes(event.key)) resumeSnap();
-    };
     const onAnchorClick = (event: globalThis.MouseEvent) => {
       if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
       const anchor = event.target instanceof Element ? event.target.closest<HTMLAnchorElement>('a[href^="#"]') : null;
       const target = anchor && document.getElementById(anchor.hash.slice(1));
       if (!anchor || !target || (!target.classList.contains("story-chapter") && target.id !== "projects")) return;
       event.preventDefault();
-      // A direct jump takes precedence over an unfinished wheel snap. Native
-      // snapping resumes with the next scroll gesture or navigation key.
-      root.dataset.chapterJump = "true";
       target.scrollIntoView({ behavior: "instant", block: "start" });
       window.history.pushState(null, "", anchor.hash);
       anchor.closest("details")?.removeAttribute("open");
@@ -66,9 +60,6 @@ export function ChapterNavigation() {
     };
     update();
     document.addEventListener("click", onAnchorClick);
-    window.addEventListener("wheel", resumeSnap, { passive: true });
-    window.addEventListener("touchstart", resumeSnap, { passive: true });
-    window.addEventListener("keydown", onKeyDown);
     window.addEventListener("scroll", schedule, { passive: true });
     window.addEventListener("resize", schedule);
     window.addEventListener("portfolio-motion-change", schedule);
@@ -76,11 +67,7 @@ export function ChapterNavigation() {
     return () => {
       cancelAnimationFrame(frame);
       delete root.dataset.story;
-      delete root.dataset.chapterJump;
       document.removeEventListener("click", onAnchorClick);
-      window.removeEventListener("wheel", resumeSnap);
-      window.removeEventListener("touchstart", resumeSnap);
-      window.removeEventListener("keydown", onKeyDown);
       elements.forEach(element => {
         element?.style.removeProperty("--chapter-shift");
         element?.style.removeProperty("--chapter-turn");

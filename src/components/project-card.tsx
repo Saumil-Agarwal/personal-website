@@ -21,7 +21,8 @@ export function ProjectCard({ project, index = 0 }: { project: Project; index?: 
   const close = useCallback(() => setExpanded(false), []);
 
   return (
-    <article id={`work-${project.slug}`} className={`project-card story-chapter project-scene-${index}`} aria-labelledby={`work-${project.slug}-title`}>
+    <article id={`work-${project.slug}`} className={`project-card story-chapter machine-chapter project-scene-${index}`} aria-labelledby={`work-${project.slug}-title`}>
+      <div className="machine-panel project-panel">
       <div className="project-chapter-meta"><span>SELECTED WORK / {String(index + 1).padStart(2, "0")}</span><span>{project.tags[0]}</span></div>
       <div className="project-art">
       <ProjectVisual slug={project.slug} />
@@ -40,6 +41,7 @@ export function ProjectCard({ project, index = 0 }: { project: Project; index?: 
       >
         Explore project <span aria-hidden="true">↗</span>
       </button></div>
+      </div>
       </div>
       <noscript><a className="button" href={`/projects/${project.slug}`}>Open project details ↗</a></noscript>
       {expanded && (

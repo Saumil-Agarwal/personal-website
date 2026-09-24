@@ -60,10 +60,6 @@
 #skills { display: grid; align-content: center; }#skills h2 { max-width: 15ch; }#skills .skills-grid > div { background: radial-gradient(ellipse at top right,color-mix(in srgb,var(--accent) 6%,transparent),transparent 80%); }
 #terminal, #ask { align-content: center; }#terminal > .eyebrow, #ask > .eyebrow { margin-bottom: 2rem; }#terminal .terminal, #ask .chat { transform: translateY(var(--chapter-shift,0px)); }#contact { display: flex; flex-direction: column; justify-content: center; }#contact h2 { font-size: clamp(4rem,8vw,8rem); }#contact::after { top: 20%; transform: translateY(var(--chapter-shift,0px)); }
 .footer { padding-bottom: 7rem; }
-@media (min-width: 761px) and (min-height: 650px) and (prefers-reduced-motion: no-preference) {
-  :root[data-story="true"] { scroll-snap-type: y mandatory; }
-  .story-chapter { scroll-snap-align: start; scroll-snap-stop: always; }
-}
 :root[data-motion="paused"], :root[data-chapter-jump="true"], :root:has([role="dialog"]) { scroll-snap-type: none !important; }
 :root[data-motion="paused"] .hero-universe, :root[data-motion="paused"] .philosophy-visual, :root[data-motion="paused"] .story-projects .project-art { transform: none; }
 @media (max-width: 1100px) { .hero h1 { font-size: 6.8vw; }.hero .actions { flex-wrap: wrap; }.story-projects .project-card { gap: 2rem; }.chapter-bar { padding-inline: 2rem; }.chapter-location { min-width: 175px; gap: .8rem; }.chapter-rail { right: .1rem; } }

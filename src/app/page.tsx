@@ -1,3 +1,5 @@
+import { MachineExperience } from "@/features/machine/machine-experience";
+import { Intelligence } from "@/components/intelligence";
 import { ChapterNavigation } from "@/components/chapter-navigation";
 import { MotionControls } from "@/components/motion-controls";
 import { About } from "@/components/about";
@@ -20,10 +22,12 @@ export default function Home() {
       <header className="site-header">
         <Nav />
       </header>
+      <MachineExperience />
       <main id="main-content" tabIndex={-1}>
         <Hero><HeroArtwork /></Hero>
         <div className="shell portfolio-content">
           <About />
+          <Intelligence />
           <Projects />
           <ExperienceTimeline />
           <SkillsGrid />
