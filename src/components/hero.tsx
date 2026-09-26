@@ -9,7 +9,7 @@ export function Hero({ children }: { children?: ReactNode }) {
       <div className="hero-stage">
         <div className="hero-copy">
           <p className="eyebrow">Systems. Security. A little intelligence.</p>
-          <h1 aria-label={profile.name}>SAUMIL<span className="name-second">AGARWAL<span className="name-star" aria-hidden="true">✳</span></span></h1>
+          <h1 aria-label={profile.name}>SAUMIL<span className="name-second">AGARWAL</span></h1>
           <p className="hero-statement">Inside the machine.<br /><em>Beyond the expected.</em></p>
           <p className="lede">I build systems that scale, security that holds, and AI that does real work.</p>
           <p className="sr-only" data-testid="hero-tagline">{profile.tagline}</p>
