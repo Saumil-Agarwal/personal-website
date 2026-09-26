@@ -5,18 +5,33 @@ import type { Project } from "@/content/types";
 import { AccessibleDialog } from "./accessible-dialog";
 import { ProjectVisual } from "./project-visual";
 
-export function ProjectCard({ project }: { project: Project }) {
+const impacts: Record<string, { value: string; label: string }> = {
+  "jira-github-autopilot": { value: "2–3 hours", label: "of repetitive work saved per issue" },
+  "rdma-qos": { value: "Lossless.", label: "AI and storage traffic, without sacrificing latency-sensitive workloads" },
+  "go-security-microservice": { value: "2h → 30m", label: "a faster build pipeline, with Go at the core" },
+  "tenant-isolation": { value: "12 teams.", label: "one platform-wide isolation initiative" },
+  "nats-jetstream-telemetry": { value: "Publish once.", label: "independent consumers, working concurrently" },
+  "twofold-editions": { value: "Ideas, made.", label: "from a digital design to an object you can hold" },
+};
+
+export function ProjectCard({ project, index = 0 }: { project: Project; index?: number }) {
   const [expanded, setExpanded] = useState(false);
   const titleId = `project-${project.slug}-title`;
   const closeRef = useRef<HTMLButtonElement>(null);
   const close = useCallback(() => setExpanded(false), []);
 
   return (
-    <article className="project-card">
+    <article id={`work-${project.slug}`} className={`project-card story-chapter machine-chapter project-scene-${index}`} aria-labelledby={`work-${project.slug}-title`}>
+      <div className="machine-panel project-panel">
+      <div className="project-chapter-meta"><span>SELECTED WORK / {String(index + 1).padStart(2, "0")}</span><span>{project.tags[0]}</span></div>
+      <div className="project-art">
       <ProjectVisual slug={project.slug} />
+      </div>
+      <div className="project-copy">
       <p className="eyebrow">{project.tags.join(" · ")}</p>
-      <h3>{project.title}</h3>
+      <h3 id={`work-${project.slug}-title`}>{project.title}</h3>
       <p>{project.blurb}</p>
+      {impacts[project.slug] && <div className="project-impact"><strong>{impacts[project.slug].value}</strong><span>{impacts[project.slug].label}</span></div>}
       <div className="project-card-actions"><button
         type="button"
         className="project-toggle"
@@ -24,8 +39,11 @@ export function ProjectCard({ project }: { project: Project }) {
         aria-label={`Quick view: ${project.title}`}
         onClick={() => setExpanded(true)}
       >
-        Quick view
+        Explore project <span aria-hidden="true">↗</span>
       </button></div>
+      </div>
+      </div>
+      <noscript><a className="button" href={`/projects/${project.slug}`}>Open project details ↗</a></noscript>
       {expanded && (
         <AccessibleDialog backdropClassName="project-modal-backdrop" panelClassName="project-modal" labelledBy={titleId} onClose={close} initialFocusRef={closeRef}>
             <button ref={closeRef} type="button" className="project-modal-close" aria-label="Close project details" onClick={close}>×</button>

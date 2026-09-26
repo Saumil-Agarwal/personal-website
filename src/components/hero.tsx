@@ -1,64 +1,28 @@
-"use client";
-
-import { type ReactNode, useEffect, useState } from "react";
+import { type ReactNode } from "react";
 import { profile } from "@/content/site";
 
 export function Hero({ children }: { children?: ReactNode }) {
-  const [tagline, setTagline] = useState("");
-
-  useEffect(() => {
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (reducedMotion.matches) {
-      const timer = window.setTimeout(() => setTagline(profile.tagline), 0);
-      return () => window.clearTimeout(timer);
-    }
-
-    let position = 0;
-    let timer: number;
-
-    function type() {
-      position += 1;
-      setTagline(profile.tagline.slice(0, position));
-      const complete = position >= profile.tagline.length;
-      timer = window.setTimeout(complete ? erase : type, complete ? 4_000 : 18);
-    }
-
-    function erase() {
-      position -= 1;
-      setTagline(profile.tagline.slice(0, position));
-      const empty = position <= 0;
-      timer = window.setTimeout(empty ? type : erase, empty ? 900 : 10);
-    }
-
-    timer = window.setTimeout(type, 18);
-    return () => window.clearTimeout(timer);
-  }, []);
-
   return (
-    <header id="top" className="hero shell">
-      <div className="hero-copy">
-        <p className="prompt">
-          saumil@agarwal:~$ <span>whoami</span>
-        </p>
-        <h1>{profile.name}</h1>
-        <p className="tagline">
-          <span data-testid="hero-tagline">{tagline}</span>
-          <span className="caret" aria-hidden="true">▋</span>
-        </p>
-        <p className="lede">{profile.summary}</p>
-        <div className="actions">
-          <a className="button primary" href="#projects">
-            View projects
-          </a>
-          <a className="button" href="#ask">
-            Explore the portfolio
-          </a>
-          <a className="button" href={profile.resumeUrl} download>
-            Resume
-          </a>
+    <header id="top" className="hero shell story-chapter machine-chapter">
+      <div className="machine-panel">
+      <div className="hero-meta"><span><i className="status-light" /> ENGINEER BY TRADE. BUILDER BY INSTINCT.</span><span>BENGALURU, INDIA / 12.97° N</span></div>
+      <div className="hero-stage">
+        <div className="hero-copy">
+          <p className="eyebrow">Systems. Security. A little intelligence.</p>
+          <h1 aria-label={profile.name}>SAUMIL<span className="name-second">AGARWAL</span></h1>
+          <p className="hero-statement">Inside the machine.<br /><em>Beyond the expected.</em></p>
+          <p className="lede">I build systems that scale, security that holds, and AI that does real work.</p>
+          <p className="sr-only" data-testid="hero-tagline">{profile.tagline}</p>
+          <div className="actions">
+            <a className="button primary" href="#projects">View projects <span aria-hidden="true">↗</span></a>
+            <a className="button" href="#ask">Explore the portfolio</a>
+            <a className="hero-resume" href={profile.resumeUrl} download>Resume <span aria-hidden="true">↓</span></a>
+          </div>
         </div>
+        <div className="hero-universe">{children}<span className="orbit-word orbit-word-one" aria-hidden="true">HUMAN INTENT</span><span className="orbit-word orbit-word-two" aria-hidden="true">MACHINE POSSIBILITY</span></div>
       </div>
-      {children}
+      <div className="hero-bottom"><a href="#about">SCROLL TO OPEN THE MACHINE. <span aria-hidden="true">↓</span></a><span>SELECTED WORK & EXPERIMENTS / 2026</span></div>
+      </div>
     </header>
   );
 }

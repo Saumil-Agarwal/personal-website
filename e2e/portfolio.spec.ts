@@ -15,8 +15,14 @@ test("portfolio core journey, project modal, and SEO resources", async ({ page }
     await liveProject.hover();
     return liveProject.evaluate((element) => {
       const parse = (value: string) => {
-        const channels = value.match(/[\d.]+/g)!.slice(0, 3).map(Number);
-        return value.startsWith("color(srgb") ? channels.map((channel) => channel * 255) : channels;
+        // The browser interpolates animated colors in OKLab. Normalize any
+        // supported CSS color to sRGB rather than assuming an rgb() string.
+        const canvas = document.createElement("canvas");
+        canvas.width = canvas.height = 1;
+        const context = canvas.getContext("2d")!;
+        context.fillStyle = value;
+        context.fillRect(0, 0, 1, 1);
+        return Array.from(context.getImageData(0, 0, 1, 1).data).slice(0, 3);
       };
       const luminance = (value: string) => {
         const channels = parse(value).map((channel) => {
@@ -46,17 +52,8 @@ test("portfolio core journey, project modal, and SEO resources", async ({ page }
 test("visual layout: separated hero, project visuals, and no overflow", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator(".site-header")).toBeVisible();
-  await expect(page.getByTestId("hero-artwork")).toBeVisible();
-  if (page.viewportSize()!.width > 760) {
-    const [copyBox, artworkBox] = await Promise.all([
-      page.locator(".hero-copy").boundingBox(),
-      page.getByTestId("hero-artwork").boundingBox(),
-    ]);
-    expect(copyBox).not.toBeNull();
-    expect(artworkBox).not.toBeNull();
-    expect(copyBox!.x + copyBox!.width).toBeLessThanOrEqual(artworkBox!.x);
-    expect(artworkBox!.width).toBeLessThanOrEqual(620);
-  }
+  await expect(page.locator(".machine-canvas")).toBeVisible();
+  await expect(page.locator(".hero-copy")).toBeInViewport();
   await expect(page.locator("[data-project-visual]")).toHaveCount(6);
   expect(
     await page.evaluate(
@@ -72,7 +69,7 @@ test("mobile viewport: header, palette scrolling, visuals, and no overflow @mobi
   test.skip(!viewport || viewport.width > 500, "mobile-only test");
   await page.goto("/");
   await expect(page.locator(".site-header")).toBeVisible();
-  await expect(page.getByTestId("hero-artwork")).toBeVisible();
+  await expect(page.locator(".machine-canvas")).toBeVisible();
   await expect(page.locator("[data-project-visual]")).toHaveCount(6);
   await page.getByRole("button", { name: /open command palette/i }).click();
   await expect(page.locator(".palette-results")).toBeVisible();

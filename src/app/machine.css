@@ -1,0 +1,104 @@
+/* The document remains the scroll controller. A shared canvas turns that scroll
+   into one continuous scene; semantic HTML remains complete without JavaScript. */
+:root { --accent: #c1f788; }
+:root[data-theme="light"] { --accent: #3d6620; }
+:root[data-story="true"] { scroll-snap-type: none; }
+.machine-world { display: none; position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+:root[data-machine="true"] .machine-world { display: block; }
+.machine-canvas { display: block; width: 100%; height: 100%; }
+.machine-vignette { position: absolute; inset: 0; background: linear-gradient(90deg,var(--background) 0%,transparent 58%); }
+:root[data-machine="true"] main, :root[data-machine="true"] .footer { position: relative; z-index: 1; }
+.machine-panel { width: 100%; }
+/* Fallback layouts also use the inner panel when canvas cannot initialize. */
+#about .machine-panel { display: grid; grid-template-columns: 1.05fr 1fr; gap: 2rem 3rem; align-items: center; }
+#about.philosophy { display: block; }
+.story-projects .project-card, .story-projects .project-card:first-child, .story-projects .project-card:last-child { display: block; }
+.project-panel { display: grid; grid-template-columns: 1.05fr 1fr; grid-template-rows: auto 1fr; align-items: center; gap: 2rem 4rem; }
+.intelligence h2 { font-size: clamp(3rem,5.7vw,5.7rem); line-height: 1.02; letter-spacing: -.065em; }
+.intelligence .prose { max-width: 43ch; font-size: .9rem; line-height: 1.8; color: var(--muted); }
+.intelligence .lede { font-size: 1.2rem; margin: 1.5rem 0; }
+.agent-steps { display: flex; flex-wrap: wrap; list-style: none; padding: 0; gap: .5rem; margin: 1.6rem 0 2rem; counter-reset: agent; }
+.agent-steps li { font: .6rem var(--font-geist-mono),monospace; border: 1px solid var(--line); padding: .65rem .7rem; counter-increment: agent; }
+.agent-steps li::before { content: "0" counter(agent) " / "; color: var(--accent); }
+.text-link { display: inline-flex; align-items: center; gap: 2rem; font-size: .8rem; text-underline-offset: .5rem; }
+.machine-section-note { display: flex; justify-content: space-between; font: .55rem var(--font-geist-mono),monospace; letter-spacing: .12em; color: var(--muted); padding-block: 1.4rem; border-top: 1px solid var(--line); }
+:root[data-machine="true"] .machine-chapter { min-height: 155svh; padding-block: 0; overflow: visible; border: 0; }
+:root[data-machine="true"] .machine-chapter > .machine-panel { position: sticky; top: 80px; min-height: calc(100svh - 145px); padding: 3rem 0 4rem; }
+:root[data-machine="true"] .hero.story-chapter { display: block; }
+:root[data-machine="true"] .hero .machine-panel { display: flex; flex-direction: column; padding: 1.5rem 0 2.5rem; }
+:root[data-machine="true"] .hero-stage { display: flex; flex: 1; align-items: center; }
+:root[data-machine="true"] .hero-copy { width: 52%; }
+:root[data-machine="true"] .hero h1 { font-size: clamp(3.8rem,6.5vw,7rem); }
+:root[data-machine="true"] .hero-statement { font-size: clamp(1.6rem,2.5vw,2.5rem); }
+:root[data-machine="true"] .hero .hero-bottom { display: flex; border-top: 1px solid var(--line); padding-top: 1.2rem; }
+:root[data-machine="true"] .hero .hero-universe,
+:root[data-machine="true"] #about .philosophy-visual,
+:root[data-machine="true"] .story-projects .project-art { display: none; }
+:root[data-machine="true"] #about .machine-panel { display: flex; flex-direction: column; align-items: stretch; justify-content: center; }
+:root[data-machine="true"] .philosophy-copy, :root[data-machine="true"] .intelligence-copy { width: 48%; }
+:root[data-machine="true"] #about .philosophy-copy h2 { font-size: clamp(2.8rem,5vw,5.2rem); }
+:root[data-machine="true"] .philosophy-principles { margin-top: 2.5rem; width: 48%; flex-direction: column; gap: .9rem; }
+:root[data-machine="true"] .intelligence .machine-panel { display: flex; flex-direction: column; justify-content: center; gap: 2rem; }
+:root[data-machine="true"] .intelligence .machine-section-note { width: 48%; }
+:root[data-machine="true"] .story-projects .project-card { min-height: 140svh; }
+:root[data-machine="true"] .project-panel { display: flex; flex-direction: column; justify-content: center; align-items: stretch; }
+:root[data-machine="true"] .project-chapter-meta { width: 47%; padding-bottom: 1rem; border-bottom: 1px solid var(--line); margin-bottom: 1.5rem; }
+:root[data-machine="true"] .story-projects .project-copy { width: 47%; }
+:root[data-machine="true"] .story-projects .project-copy h3 { font-size: clamp(2.3rem,4.2vw,4.3rem); }
+:root[data-machine="true"] .story-projects .project-card { --accent: #c1f788; }
+:root[data-theme="light"][data-machine="true"] .story-projects .project-card { --accent: #3d6620; }
+:root[data-machine="true"] #experience, :root[data-machine="true"] #skills, :root[data-machine="true"] #terminal, :root[data-machine="true"] #ask, :root[data-machine="true"] #contact { background: color-mix(in srgb,var(--background) 85%,transparent); }
+:root[data-machine="true"] #terminal .terminal, :root[data-machine="true"] #ask .chat { transform: none; }
+@media (max-width: 1000px) and (min-width: 761px) {
+  :root[data-machine="true"] .hero .actions { gap: .65rem; }
+  :root[data-machine="true"] .hero .button { font-size: .65rem; padding-inline: .8rem; }
+  :root[data-machine="true"] .hero-meta > span:last-child { display: none; }
+}
+@media (max-width: 760px) {
+  #about .machine-panel, .project-panel { display: flex; flex-direction: column; align-items: stretch; }
+  .machine-vignette { background: linear-gradient(180deg,var(--background),transparent 80%); }
+  :root[data-machine="true"] .machine-chapter { min-height: 145svh; }
+  :root[data-machine="true"] .machine-chapter > .machine-panel { top: 68px; min-height: calc(100svh - 126px); padding: 1.6rem 0 17rem; }
+  :root[data-machine="true"] .hero .machine-panel { padding: 1rem 0 1.5rem; }
+  :root[data-machine="true"] .hero .hero-stage { display: block; }
+  :root[data-machine="true"] .hero .hero-copy { width: 100%; }
+  :root[data-machine="true"] .hero h1 { font-size: clamp(3.1rem,13vw,5.5rem); margin-top: 1rem; }
+  :root[data-machine="true"] .hero .hero-statement { font-size: 1.7rem; margin-top: .8rem; }
+  :root[data-machine="true"] .hero .lede { max-width: 34ch; font-size: .78rem; }
+  :root[data-machine="true"] .hero .actions { margin-top: .8rem; gap: .7rem; }
+  :root[data-machine="true"] .hero .button { font-size: .65rem; padding: .65rem .8rem; }
+  :root[data-machine="true"] .hero .hero-resume { font-size: .65rem; }
+  :root[data-machine="true"] .hero .hero-bottom { margin-top: 15rem; font-size: .5rem; }
+  :root[data-machine="true"] .hero .hero-meta { font-size: .48rem; }
+  :root[data-machine="true"] .hero .hero-meta > span:last-child { display: none; }
+  :root[data-machine="true"] .philosophy-copy, :root[data-machine="true"] .intelligence-copy, :root[data-machine="true"] .story-projects .project-copy, :root[data-machine="true"] .project-chapter-meta { width: 100%; }
+  :root[data-machine="true"] #about .machine-panel, :root[data-machine="true"] .intelligence .machine-panel, :root[data-machine="true"] .project-panel { justify-content: flex-start; }
+  :root[data-machine="true"] #about .philosophy-copy h2, .intelligence h2 { font-size: 2.7rem; margin-bottom: 1.2rem; }
+  :root[data-machine="true"] #about .philosophy-copy .prose { font-size: .78rem; line-height: 1.65; }
+  :root[data-machine="true"] .philosophy-principles { width: 100%; margin-top: .7rem; padding-top: .7rem; gap: .5rem; }
+  :root[data-machine="true"] .philosophy-principles > span { font-size: .7rem; }
+  :root[data-machine="true"] .intelligence .machine-section-note { display: none; }
+  .intelligence .lede { font-size: 1rem; }
+  .intelligence .prose { font-size: .8rem; }
+  :root[data-machine="true"] .story-projects .project-copy h3 { font-size: 2.6rem; margin-top: .7rem; margin-bottom: 1rem; }
+  :root[data-machine="true"] .story-projects .project-copy > p:not(.eyebrow) { font-size: .8rem; line-height: 1.6; }
+  :root[data-machine="true"] .project-chapter-meta { margin-bottom: .8rem; padding-bottom: .6rem; }
+  :root[data-machine="true"] .project-impact { margin-top: 1rem; }
+  :root[data-machine="true"] .project-impact strong { font-size: 1.6rem; }
+  :root[data-machine="true"] .project-impact > span { font-size: .7rem; }
+  :root[data-machine="true"] .story-projects .project-card-actions { margin-top: 1rem; }
+}
+/* Avoid pinned content exceeding the viewport at large text/short window sizes.
+   Reduced motion uses the same real content in ordinary reading flow. */
+@media (max-height: 700px), (prefers-reduced-motion: reduce) {
+  :root[data-machine="true"] .machine-chapter, :root[data-machine="true"] .story-projects .project-card { min-height: auto; }
+  :root[data-machine="true"] .machine-chapter > .machine-panel { position: relative; top: auto; min-height: calc(100svh - 145px); padding-block: 3rem; }
+  :root[data-machine="true"] .hero .hero-bottom { margin-top: 2rem; }
+}
+@media (max-width: 760px) and (max-height: 700px) {
+  :root[data-machine="true"] .machine-canvas { opacity: .13 !important; }
+  :root[data-machine="true"] .machine-chapter > .machine-panel { padding-bottom: 3rem; }
+}
+
+:root[data-machine="true"] .machine-chapter[data-unpinned="true"] { min-height: auto; }
+:root[data-machine="true"] .machine-chapter[data-unpinned="true"] > .machine-panel { position: relative; top: auto; }

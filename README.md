@@ -8,7 +8,7 @@ A dark-first, terminal-inspired portfolio built with Next.js App Router, React, 
 
 - `src/content/site.ts` — the single typed source for profile, experience, projects, skills, and Q&A.
 - `src/components/` — server-first portfolio sections plus focused client enhancements.
-- `src/components/hero-artwork.tsx` — decorative SVG/CSS secure distributed-plane diagram. Hidden from assistive technology. No image assets or animation libraries.
+- `src/components/hero-artwork.tsx` — decorative SVG neural-core geometry. Hidden from assistive technology. No image assets or animation libraries.
 - `src/components/project-visual.tsx` — reusable diagram-style SVG visual keyed by project slug (workflow, network, services, layers, stream, object). Falls back to a neutral visual for unknown slugs.
 - `src/features/terminal/` — pure command registry, browser result handler, and terminal UI.
 - `src/features/command-palette/` — keyboard command search using the same terminal registry.
@@ -17,7 +17,16 @@ A dark-first, terminal-inspired portfolio built with Next.js App Router, React, 
 
 ### Visual design
 
-The homepage uses a full-width deep-emerald sticky glass header and an editorial two-column hero layout. Hero artwork and project visuals are pure SVG/CSS with subtle routed-packet animations. When `prefers-reduced-motion: reduce` is active, all animation names are set to `none` and the artwork renders statically. On mobile (below 760 px), the hero stacks to a single column and artwork scales down. No stock images, canvas/WebGL, or external animation packages are used.
+The cinematic portfolio uses oversized ivory typography, an obsidian canvas, mint accents, and a custom SVG neural core. The experience starts at the hero and continues through 13 native-scroll chapters. Each project has its own scene, a distinct accent, and an evidence-backed impact statement. A chapter rail and persistent progress bar support direct jumps and next-chapter navigation. Quick-view dialogs and project routes remain available.
+
+- `src/app/cinematic.css` contains the redesign styles, loaded after shared base styles.
+- `src/app/story.css` defines the chapter composition and responsive snap behavior.
+- `src/components/chapter-navigation.tsx` tracks active chapters and schedules decorative transforms through one animation frame per scroll update. Direct anchor jumps temporarily suspend snap to cancel pending wheel momentum; native snap resumes on the next gesture or navigation key.
+- `src/components/motion-controls.tsx` provides a global pause/resume control.
+- Mobile and reduced-motion users get every chapter in normal document flow. Content is server rendered; project links are available in a no-JavaScript fallback.
+- Both light and dark themes remain available. No new runtime dependencies, external image requests, or AI service credentials are required. The portfolio Q&A remains explicitly scripted.
+
+For environments that restrict Turbopack worker ports, use `npm run build -- --webpack` to run the supported Next.js production-build fallback. Google Fonts must be reachable for the existing `next/font` configuration.
 
 Supabase is intentionally unused: the launch has no persistence or authentication requirements, and its AI is stateless scripted matching rather than a live model backend.
 

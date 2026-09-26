@@ -1,9 +1,9 @@
 import { projects } from "@/content/site";
 import { ProjectCard } from "./project-card";
-import { Section } from "./section";
 
 export function Projects() {
-  return <Section id="projects" eyebrow="02 / selected work" title="Systems that make teams faster.">
-    <div className="project-grid">{projects.map((project) => <ProjectCard key={project.slug} project={project} />)}</div>
-  </Section>;
+  return <section id="projects" className="story-projects" aria-labelledby="projects-title">
+    <h2 id="projects-title" className="sr-only">Selected work.</h2>
+    <div className="project-grid">{projects.map((project, index) => <ProjectCard key={project.slug} project={project} index={index} />)}</div>
+  </section>;
 }

@@ -1,5 +1,4 @@
-import { act, render, screen } from "@testing-library/react";
-import { vi } from "vitest";
+import { render, screen } from "@testing-library/react";
 import Home from "@/app/page";
 import { Hero } from "./hero";
 
@@ -88,16 +87,9 @@ describe("portfolio home", () => {
     );
   });
 
-  it("types the hero tagline after starting with an empty terminal line", () => {
-    vi.useFakeTimers();
+  it("renders the complete hero tagline without waiting for animation", () => {
     render(<Hero />);
-    expect(screen.getByTestId("hero-tagline")).toHaveTextContent(/^$/);
-
-    act(() => vi.advanceTimersByTime(2_000));
-    expect(screen.getByTestId("hero-tagline")).toHaveTextContent(
-      /Member of Technical Staff.+Agentic AI/,
-    );
-    vi.useRealTimers();
+    expect(screen.getByTestId("hero-tagline")).toHaveTextContent(/Member of Technical Staff.+Agentic AI/);
   });
 
   it("offers only quick view on project cards", () => {
