@@ -5,7 +5,7 @@ export function HeroArtwork() {
   const id = useId().replaceAll(":", "");
   return (
     <div className="hero-artwork" data-testid="hero-artwork" aria-hidden="true">
-      <div className="core-coordinate">FIG. 01 — THE INTELLIGENCE CORE</div>
+      <div className="core-coordinate">THE INTELLIGENCE CORE</div>
       <div className="neural-orbit">
         <svg className="hero-artwork-svg" viewBox="0 0 600 520" fill="none">
           <defs>

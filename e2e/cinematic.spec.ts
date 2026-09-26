@@ -17,13 +17,6 @@ test("scroll continuously transforms the scene, reverses, and preserves direct n
   await expect.poll(async () => Number(await canvas.getAttribute("data-scene"))).toBeCloseTo(3, 1);
   await page.getByRole("link", { name: /next chapter: networking/i }).click();
   await expect(page.locator("#work-rdma-qos .project-copy")).toBeInViewport();
-  await page.getByRole("button", { name: "Pause animations" }).click();
-  const frozen = await canvas.getAttribute("data-scene");
-  await page.mouse.wheel(0, 400);
-  await expect.poll(() => page.evaluate(() => scrollY)).toBeGreaterThan(400);
-  await expect(canvas).toHaveAttribute("data-scene", frozen!);
-  await page.getByRole("button", { name: "Resume animations" }).click();
-  await expect.poll(() => canvas.getAttribute("data-scene")).not.toBe(frozen);
   expect(await page.locator("html").evaluate(element => getComputedStyle(element).scrollSnapType)).toBe("none");
 });
 

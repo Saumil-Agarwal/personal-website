@@ -138,7 +138,7 @@ export function drawMachine(ctx: CanvasRenderingContext2D, width: number, height
     const material = ctx.createLinearGradient(centerX-90,centerY-90,centerX+90,centerY+90);
     material.addColorStop(0,light?"#e7ebe0":"#3c4939"); material.addColorStop(1,light?"#b2c0a9":"#111a13");
     ctx.fillStyle=material;ctx.fill();ctx.strokeStyle=accent;ctx.lineWidth=1;ctx.stroke();
-    const label=project([0,-48-p*120,0]);ctx.fillStyle=accent;ctx.textAlign="center";ctx.font=`${Math.max(12,19*unit)}px monospace`;ctx.fillText("SA / 01",label[0],label[1]);ctx.globalAlpha=1;
+    const label=project([0,-48-p*120,0]);ctx.fillStyle=accent;ctx.textAlign="center";ctx.font=`${Math.max(12,19*unit)}px monospace`;ctx.fillText("SA",label[0],label[1]);ctx.globalAlpha=1;
   }
   // Project each annotation from its own moving module, but keep the text flat
   // and readable. Leader lines retain the association when labels need spacing.
@@ -176,6 +176,6 @@ export function drawMachine(ctx: CanvasRenderingContext2D, width: number, height
     ctx.font = "10px monospace"; ctx.textAlign = "center"; ctx.fillStyle = ink;
     ctx.fillText(sceneLabels[Math.min(9, Math.round(p))], centerX, labelY);
     ctx.fillStyle = trace; ctx.font = "9px monospace";
-    ctx.fillText(`FIG. ${String(Math.min(10, Math.round(p) + 1)).padStart(2,"0")}  /  SCROLL TO TRANSFORM`, centerX, labelY + 21);
+    ctx.fillText("SCROLL TO TRANSFORM", centerX, labelY + 21);
   }
 }

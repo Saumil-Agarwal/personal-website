@@ -1,7 +1,6 @@
 import { MachineExperience } from "@/features/machine/machine-experience";
 import { Intelligence } from "@/components/intelligence";
 import { ChapterNavigation } from "@/components/chapter-navigation";
-import { MotionControls } from "@/components/motion-controls";
 import { About } from "@/components/about";
 import { Contact } from "@/components/contact";
 import { ExperienceTimeline } from "@/components/experience-timeline";
@@ -45,7 +44,6 @@ export default function Home() {
         </div>
       </main>
       <Footer />
-      <MotionControls />
       <ChapterNavigation />
       <CommandPalette />
     </>
